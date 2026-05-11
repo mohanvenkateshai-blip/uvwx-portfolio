@@ -1,0 +1,103 @@
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#0f172a; padding:20px 16px; font-family:'Space Grotesk',system-ui,sans-serif; }
+
+  .banner {
+    width:100%; aspect-ratio:4/1;
+    position:relative; overflow:hidden;
+    border-radius:6px; border:1px solid rgba(255,255,255,0.08);
+  }
+  .bg {
+    position:absolute; inset:0;
+    background:linear-gradient(105deg,#07111f 55%,#0c2340 100%);
+  }
+  .accentline {
+    position:absolute; left:0; top:0; bottom:0; width:3px;
+    background:linear-gradient(180deg,#38bdf8,rgba(56,189,248,0.1));
+  }
+  .inner {
+    position:absolute; inset:0;
+    display:flex; align-items:center;
+    padding:0 5%; gap:4%;
+  }
+  .left { flex:1; min-width:0; }
+
+  .eyebrow {
+    font-size:clamp(7px,0.9vw,9.5px);
+    letter-spacing:2.5px; color:#38bdf8; opacity:.75;
+    margin-bottom:4%; font-weight:400;
+  }
+  .name {
+    font-weight:700;
+    font-size:clamp(20px,5.4vw,54px);
+    line-height:0.93; color:#fff;
+    letter-spacing:-0.5px; white-space:nowrap;
+  }
+  .role {
+    margin-top:5%;
+    font-size:clamp(9px,1.6vw,16px);
+    font-weight:300; color:rgba(255,255,255,0.72);
+  }
+  .role strong { color:#38bdf8; font-weight:600; }
+
+  .meta {
+    margin-top:3%;
+    font-size:clamp(6px,0.95vw,9.5px);
+    color:#475569; letter-spacing:.5px;
+    display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+  }
+  .sep { color:#38bdf8; opacity:.35; font-size:.8em; }
+
+  .right {
+    display:flex; flex-direction:column;
+    align-items:flex-end; gap:10%; min-width:22%;
+  }
+  .badge {
+    border:1.5px solid rgba(234,179,8,.5);
+    border-radius:4px; padding:4% 8%; text-align:center;
+  }
+  .badge-label {
+    font-size:clamp(5px,0.75vw,7.5px);
+    letter-spacing:2px; color:#94a3b8;
+  }
+  .badge-url {
+    font-size:clamp(12px,2vw,20px);
+    font-weight:700; color:#eab308;
+  }
+  .opento {
+    font-size:clamp(5px,.75vw,7.5px);
+    color:rgba(56,189,248,.55);
+    letter-spacing:1.8px; text-align:right; line-height:2;
+  }
+</style>
+
+<div class="banner">
+  <div class="bg"></div>
+  <div class="accentline"></div>
+  <div class="inner">
+    <div class="left">
+      <div class="eyebrow">// PORTFOLIO &nbsp;/ &nbsp;AI-NATIVE UX LEADER</div>
+      <div class="name">MOHAN VENKATESH</div>
+      <div class="role">UX Architect <strong>&amp; AUX Specialist</strong></div>
+      <div class="meta">
+        <span>20+ years</span><span class="sep">/</span>
+        <span>Ericsson</span><span class="sep">/</span>
+        <span>Ellucian</span><span class="sep">/</span>
+        <span>HP</span><span class="sep">/</span>
+        <span>Ireland &amp; India</span>
+      </div>
+    </div>
+    <div class="right">
+      <div class="badge">
+        <div class="badge-label">PORTFOLIO</div>
+        <div class="badge-url">uvwx.me</div>
+      </div>
+      <div class="opento">
+        // OPEN TO<br>
+        SR UX / UX LEAD<br>
+        UX MANAGER / AI UX
+      </div>
+    </div>
+  </div>
+</div>

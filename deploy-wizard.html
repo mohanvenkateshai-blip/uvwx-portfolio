@@ -1,0 +1,1901 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>uvwx · Deployment Kit Wizard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"
+      integrity="sha512-XMVd28F1oH/O71fzwBnV7HucLxVwtxf26XV8P4wPk26EDxuGZ91N8bsOttmnomcCD3CS5ZMRL50H0GgOHvegtg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+<style>
+:root {
+  --bg: #091524;
+  --bg2: #0d1d33;
+  --panel: #0f2440;
+  --panel2: #132b4a;
+  --rule: rgba(91, 158, 255, 0.14);
+  --rule2: rgba(91, 158, 255, 0.28);
+  --t1: #f0f5ff;
+  --t2: rgba(240, 245, 255, 0.7);
+  --t3: rgba(240, 245, 255, 0.45);
+  --blue: #5b9eff;
+  --blue-b: rgba(91, 158, 255, 0.55);
+  --blue-d: rgba(91, 158, 255, 0.08);
+  --gold: #e8b86d;
+  --green: #5bd19e;
+  --red: #ff7b6d;
+  --radius: 3px;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html,
+body {
+  background: var(--bg);
+  color: var(--t1);
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+body {
+  background:
+    radial-gradient(
+      ellipse at top,
+      rgba(91, 158, 255, 0.06) 0%,
+      transparent 60%
+    ),
+    var(--bg);
+}
+.wrap {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 6rem;
+}
+@media (max-width: 640px) {
+  .wrap {
+    padding: 2rem 1rem 4rem;
+  }
+}
+
+/* Header */
+.hdr {
+  margin-bottom: 3rem;
+}
+.hdr-label {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.68rem;
+  color: var(--blue);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+}
+.hdr h1 {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin-bottom: 0.6rem;
+}
+.hdr h1 em {
+  color: var(--blue);
+  font-style: normal;
+  font-weight: 500;
+}
+.hdr p {
+  color: var(--t2);
+  font-size: 0.95rem;
+  max-width: 640px;
+}
+.hdr .pill {
+  display: inline-block;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.62rem;
+  color: var(--gold);
+  background: rgba(232, 184, 109, 0.08);
+  border: 1px solid rgba(232, 184, 109, 0.3);
+  padding: 0.2rem 0.5rem;
+  border-radius: 2px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+
+/* Steps */
+.stepper {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2.5rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+  flex-wrap: wrap;
+}
+.stepper .s {
+  padding: 0.4rem 0.7rem;
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  color: var(--t3);
+  border-radius: var(--radius);
+  letter-spacing: 0.05em;
+}
+.stepper .s.on {
+  color: var(--blue);
+  border-color: var(--blue-b);
+  background: var(--blue-d);
+}
+.stepper .s.done {
+  color: var(--green);
+  border-color: rgba(91, 209, 158, 0.4);
+}
+.stepper .s.done::before {
+  content: "✓ ";
+  margin-right: 0.15rem;
+}
+
+/* Card */
+.card {
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+@media (max-width: 640px) {
+  .card {
+    padding: 1.25rem;
+  }
+}
+.card h2 {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  color: var(--blue);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+.card .card-sub {
+  color: var(--t2);
+  font-size: 0.88rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Form */
+.fg {
+  margin-bottom: 1.25rem;
+}
+.fg label {
+  display: block;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.65rem;
+  color: var(--t2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+.fg input[type="text"],
+.fg input[type="email"] {
+  width: 100%;
+  background: var(--bg2);
+  border: 1px solid var(--rule);
+  color: var(--t1);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.9rem;
+  padding: 0.7rem 0.85rem;
+  border-radius: var(--radius);
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+}
+.fg input[type="text"]:focus,
+.fg input[type="email"]:focus {
+  outline: none;
+  border-color: var(--blue-b);
+  background: var(--panel2);
+}
+.fg .hint {
+  font-size: 0.75rem;
+  color: var(--t3);
+  margin-top: 0.35rem;
+  font-family: "IBM Plex Mono", monospace;
+}
+.fg .err {
+  color: var(--red);
+  font-size: 0.75rem;
+  margin-top: 0.35rem;
+  font-family: "IBM Plex Mono", monospace;
+  display: none;
+}
+.fg.has-err input {
+  border-color: var(--red);
+}
+.fg.has-err .err {
+  display: block;
+}
+
+/* Kit grid */
+.kits {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+.kit {
+  display: flex;
+  gap: 0.8rem;
+  padding: 1rem;
+  background: var(--bg2);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.15s;
+  position: relative;
+}
+.kit:hover {
+  border-color: var(--rule2);
+  background: var(--panel2);
+}
+.kit input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.kit .box {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--t3);
+  border-radius: 3px;
+  margin-top: 0.15rem;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.kit .box::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: var(--blue);
+  border-radius: 1px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.kit input:checked ~ .box {
+  border-color: var(--blue);
+  background: var(--blue-d);
+}
+.kit input:checked ~ .box::after {
+  opacity: 1;
+}
+.kit input:checked ~ .body .kit-name {
+  color: var(--blue);
+}
+.kit.active {
+  border-color: var(--blue-b);
+  background: var(--blue-d);
+}
+.kit .body {
+  flex: 1;
+}
+.kit .kit-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--t1);
+  margin-bottom: 0.2rem;
+  transition: color 0.15s;
+}
+.kit .kit-sub {
+  font-size: 0.72rem;
+  color: var(--t2);
+  font-family: "IBM Plex Mono", monospace;
+  line-height: 1.45;
+}
+.kit .kit-tag {
+  display: inline-block;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.55rem;
+  color: var(--gold);
+  background: rgba(232, 184, 109, 0.08);
+  padding: 0.1rem 0.35rem;
+  border-radius: 2px;
+  margin-top: 0.4rem;
+  letter-spacing: 0.08em;
+}
+.kit .kit-tag.free {
+  color: var(--green);
+  background: rgba(91, 209, 158, 0.08);
+}
+
+/* Buttons */
+.btnrow {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+.btn {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  padding: 0.85rem 1.6rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.15s;
+  border: 1px solid;
+  text-transform: uppercase;
+}
+.btn-primary {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: var(--bg);
+}
+.btn-primary:hover {
+  background: #7ab3ff;
+  border-color: #7ab3ff;
+}
+.btn-primary:disabled {
+  background: var(--panel2);
+  border-color: var(--rule);
+  color: var(--t3);
+  cursor: not-allowed;
+}
+.btn-ghost {
+  background: transparent;
+  border-color: var(--rule2);
+  color: var(--t2);
+}
+.btn-ghost:hover {
+  border-color: var(--blue-b);
+  color: var(--blue);
+}
+
+/* Upload */
+.up {
+  border: 1.5px dashed var(--rule2);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  text-align: center;
+  background: var(--bg2);
+  transition: all 0.15s;
+  cursor: pointer;
+  position: relative;
+}
+.up:hover {
+  border-color: var(--blue-b);
+  background: var(--panel2);
+}
+.up.has-file {
+  border-color: var(--green);
+  background: rgba(91, 209, 158, 0.05);
+  border-style: solid;
+}
+.up input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.up .up-icon {
+  font-family: "IBM Plex Mono", monospace;
+  color: var(--blue);
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+}
+.up .up-txt {
+  color: var(--t2);
+  font-size: 0.85rem;
+}
+.up.has-file .up-icon {
+  color: var(--green);
+}
+.up .up-meta {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+  color: var(--t3);
+  margin-top: 0.3rem;
+}
+
+/* Output log */
+.log {
+  background: #05101c;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 1rem 1.15rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  color: var(--t2);
+  max-height: 280px;
+  overflow-y: auto;
+  margin-top: 1rem;
+}
+.log .line {
+  margin: 0.15rem 0;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+.log .ok {
+  color: var(--green);
+}
+.log .warn {
+  color: var(--gold);
+}
+.log .err {
+  color: var(--red);
+}
+.log .muted {
+  color: var(--t3);
+}
+.log-empty {
+  color: var(--t3);
+  font-style: italic;
+}
+
+/* Success panel */
+.done-panel {
+  display: none;
+  background: linear-gradient(
+    135deg,
+    rgba(91, 209, 158, 0.08),
+    rgba(91, 158, 255, 0.04)
+  );
+  border: 1px solid rgba(91, 209, 158, 0.3);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+.done-panel.show {
+  display: block;
+}
+.done-panel h3 {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.8rem;
+  color: var(--green);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.done-panel p {
+  font-size: 0.88rem;
+  color: var(--t2);
+  margin-bottom: 0.75rem;
+}
+.done-panel .dl-link {
+  display: inline-block;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.8rem;
+  color: var(--bg);
+  background: var(--green);
+  padding: 0.7rem 1.3rem;
+  border-radius: var(--radius);
+  text-decoration: none;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.done-panel .dl-link:hover {
+  background: #7fdbb3;
+}
+
+/* Footer */
+.ft {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.68rem;
+  color: var(--t3);
+  text-align: center;
+  letter-spacing: 0.05em;
+}
+.ft a {
+  color: var(--blue);
+  text-decoration: none;
+}
+.ft a:hover {
+  text-decoration: underline;
+}
+
+/* Utility */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+@media (max-width: 640px) {
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="hdr">
+        <div class="hdr-label">
+          UVWX · Deployment Kit Wizard <span class="pill">v1.0</span>
+        </div>
+        <h1>Generate your <em>deployment kits</em></h1>
+        <p>
+          Pick your domain and target platforms. The wizard rewrites every
+          config file with your domain, bundles the selected kits, and hands you
+          a ready-to-extract zip. Everything runs in your browser — nothing
+          uploaded anywhere.
+        </p>
+      </header>
+
+      <div class="stepper" id="stepper">
+        <div class="s on" data-step="1">01 · Config</div>
+        <div class="s" data-step="2">02 · Upload Portfolio</div>
+        <div class="s" data-step="3">03 · Select Kits</div>
+        <div class="s" data-step="4">04 · Generate Zip</div>
+      </div>
+
+      <!-- STEP 1: Config -->
+      <div class="card">
+        <h2>Step 1 · Configuration</h2>
+        <div class="card-sub">
+          These values get baked into every template — robots.txt, sitemap.xml,
+          manifest.json, vercel.json, _headers, _redirects, schema.org meta
+          tags, canonical URLs, Caddyfile, etc.
+        </div>
+
+        <div class="two-col">
+          <div class="fg" id="fg-domain">
+            <label for="fld-domain">Domain (apex only, no protocol)</label>
+            <input
+              type="text"
+              id="fld-domain"
+              placeholder="uvwx.info"
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <div class="hint">
+              e.g. <code>uvwx.info</code> or <code>mohan.dev</code> — no
+              <code>https://</code> or <code>www.</code>
+            </div>
+            <div class="err">
+              Invalid domain. Use format like <code>uvwx.info</code>
+            </div>
+          </div>
+          <div class="fg" id="fg-email">
+            <label for="fld-email"
+              >Contact email (for Caddy TLS & security.txt)</label
+            >
+            <input
+              type="email"
+              id="fld-email"
+              placeholder="hello@uvwx.info"
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <div class="hint">
+              Used by Caddy for Let's Encrypt. Leave blank to skip security.txt.
+            </div>
+            <div class="err">Invalid email format</div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="fg">
+            <label for="fld-owner">Owner name (og:image alt, manifest)</label>
+            <input
+              type="text"
+              id="fld-owner"
+              placeholder="Mohan Venkatesh"
+              autocomplete="off"
+            />
+            <div class="hint">Defaults to <code>Mohan Venkatesh</code></div>
+          </div>
+          <div class="fg">
+            <label for="fld-title">Site title (manifest name)</label>
+            <input
+              type="text"
+              id="fld-title"
+              placeholder="Mohan Venkatesh · UX Portfolio"
+              autocomplete="off"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2: Upload -->
+      <div class="card">
+        <h2>Step 2 · Upload Portfolio HTML</h2>
+        <div class="card-sub">
+          Drop in your portfolio HTML. The wizard rewrites every reference to
+          the <em>source domain</em> (URLs, emails, breadcrumb labels, footer
+          tagline, JS strings, WhatsApp message template) to match your new
+          target domain, then ships the patched copy inside each kit.
+        </div>
+        <div class="fg" id="fg-srcdomain">
+          <label for="fld-srcdomain"
+            >Source domain (what's currently in the uploaded HTML)</label
+          ><input
+            type="text"
+            id="fld-srcdomain"
+            value="uvwx.me"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <div class="hint">
+            Default <code>uvwx.me</code>. If you're re-running the wizard on a
+            file that already has a new domain, change this to match.
+          </div>
+          <div class="err">Invalid domain</div>
+        </div>
+        <label class="up" id="up-zone">
+          <input type="file" id="fld-file" accept=".html,text/html" />
+          <div class="up-icon">[ DROP OR CLICK TO SELECT ]</div>
+          <div class="up-txt">portfolio_v7.html — or any HTML file</div>
+          <div class="up-meta" id="up-meta"></div>
+        </label>
+      </div>
+
+      <!-- STEP 3: Kit selection -->
+      <div class="card">
+        <h2>Step 3 · Select Deployment Kits</h2>
+        <div class="card-sub">
+          Pick all the platforms you plan to deploy to. Each kit is
+          self-contained — extract the folder, follow its README, and deploy.
+        </div>
+
+        <div class="kits" id="kits">
+          <label class="kit">
+            <input type="checkbox" data-kit="vercel" checked />
+            <div class="box"></div>
+            <div class="body">
+              <div class="kit-name">Vercel</div>
+              <div class="kit-sub">
+                Global CDN · CLI deploy · zero config<br />vercel.json, security
+                headers
+              </div>
+              <span class="kit-tag free">Free tier</span>
+            </div>
+          </label>
+          <label class="kit">
+            <input type="checkbox" data-kit="netlify" />
+            <div class="box"></div>
+            <div class="body">
+              <div class="kit-name">Netlify</div>
+              <div class="kit-sub">
+                Global CDN · drag-drop deploy<br />netlify.toml, _headers,
+                _redirects
+              </div>
+              <span class="kit-tag free">Free tier</span>
+            </div>
+          </label>
+          <label class="kit">
+            <input type="checkbox" data-kit="cloudflare-pages" />
+            <div class="box"></div>
+            <div class="body">
+              <div class="kit-name">Cloudflare Pages</div>
+              <div class="kit-sub">
+                Fastest global edge · wrangler CLI<br />_headers, _redirects,
+                wrangler.toml
+              </div>
+              <span class="kit-tag free">Free tier</span>
+            </div>
+          </label>
+          <label class="kit">
+            <input type="checkbox" data-kit="github-pages" />
+            <div class="box"></div>
+            <div class="body">
+              <div class="kit-name">GitHub Pages</div>
+              <div class="kit-sub">
+                Git-push deploy · custom domain<br />CNAME, .nojekyll, GH Action
+              </div>
+              <span class="kit-tag free">Free tier</span>
+            </div>
+          </label>
+          <label class="kit">
+            <input type="checkbox" data-kit="mac-cloudflare-tunnel" />
+            <div class="box"></div>
+            <div class="body">
+              <div class="kit-name">Mac + Cloudflare Tunnel</div>
+              <div class="kit-sub">
+                Self-host from Mac · public URL<br />cloudflared, Caddy, launchd
+              </div>
+              <span class="kit-tag free">Free tier</span>
+            </div>
+          </label>
+          <label class="kit">
+            <input type="checkbox" data-kit="mac-local" />
+            <div class="box"></div>
+            <div class="body">
+              <div class="kit-name">Mac Local</div>
+              <div class="kit-sub">
+                Localhost dev · no external access<br />Caddy, Node http-server,
+                launchd
+              </div>
+              <span class="kit-tag free">Dev only</span>
+            </div>
+          </label>
+        </div>
+
+        <div class="btnrow" style="margin-top: 1.25rem">
+          <button class="btn btn-ghost" id="btn-all" type="button">
+            Select all
+          </button>
+          <button class="btn btn-ghost" id="btn-none" type="button">
+            Clear
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 4: Generate -->
+      <div class="card">
+        <h2>Step 4 · Generate &amp; Download</h2>
+        <div class="card-sub">
+          Runs template substitution, creates one zip per selected kit plus a
+          master bundle, and hands you the download. All in-browser.
+        </div>
+
+        <div class="btnrow">
+          <button class="btn btn-primary" id="btn-gen" type="button">
+            ▶ Generate deployment bundle
+          </button>
+        </div>
+
+        <div class="log" id="log">
+          <div class="line log-empty">
+            Waiting… fill out steps 1–3, then click Generate.
+          </div>
+        </div>
+
+        <div class="done-panel" id="done">
+          <h3>✓ Bundle ready</h3>
+          <p id="done-summary"></p>
+          <a class="dl-link" id="dl-link" href="#" download
+            >⬇ Download bundle zip</a
+          >
+        </div>
+      </div>
+
+      <div class="ft">
+        <p>
+          Runs entirely client-side. No data leaves your browser. JSZip
+          <a href="https://stuk.github.io/jszip/" target="_blank" rel="noopener"
+            >stuk.github.io/jszip</a
+          >
+          · MIT.
+        </p>
+      </div>
+    </div>
+    <!-- /wrap -->
+<script>
+(function () {
+"use strict";
+
+const TEMPLATES = {
+  // ===== SHARED FILES (included in all kits) =====
+  "robots.txt": `# robots.txt — generated {{TIMESTAMP}}
+User-agent: *
+Allow: /
+Sitemap: {{URL_APEX}}/sitemap.xml
+
+# Block common scrapers & AI training crawlers
+User-agent: GPTBot
+Disallow: /
+User-agent: CCBot
+Disallow: /
+User-agent: anthropic-ai
+Disallow: /
+User-agent: ClaudeBot
+Disallow: /
+User-agent: Google-Extended
+Disallow: /
+User-agent: PerplexityBot
+Disallow: /
+User-agent: FacebookBot
+Disallow: /
+
+# Anti-probe
+Disallow: /.git
+Disallow: /.env
+Disallow: /admin
+Disallow: /wp-admin
+Disallow: /wp-login.php
+Disallow: /.well-known/security.txt$
+`,
+
+  "sitemap.xml": `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>{{URL_APEX}}/</loc>
+    <lastmod>{{TIMESTAMP_DATE}}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>
+`,
+
+  "manifest.json": `{
+  "name": "{{TITLE}}",
+  "short_name": "{{OWNER}}",
+  "description": "Senior UX Designer & UX Researcher — AUX, GenAI, Design Systems.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#091524",
+  "theme_color": "#091524",
+  "icons": []
+}
+`,
+
+  "security.txt": `Contact: mailto:{{EMAIL}}
+Expires: {{EXPIRES}}
+Preferred-Languages: en
+Canonical: {{URL_APEX}}/.well-known/security.txt
+`,
+
+  // ===== VERCEL =====
+  "vercel/vercel.json": `{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/home", "destination": "/", "permanent": true }
+  ],
+  "headers": [
+    {
+"source": "/(.*)",
+"headers": [
+  { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains; preload" },
+  { "key": "X-Content-Type-Options", "value": "nosniff" },
+  { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+  { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+  { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), interest-cohort=()" },
+  { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https:; frame-ancestors 'self'; base-uri 'self'; form-action 'self';" },
+  { "key": "X-Robots-Tag", "value": "index, follow" }
+]
+    },
+    {
+"source": "/(.*)\\\\.(html|htm)",
+"headers": [
+  { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+]
+    }
+  ]
+}
+`,
+
+  "vercel/README.md": `# Vercel Deployment Kit — {{DOMAIN}}
+
+## One-time setup
+1. Install Vercel CLI:  \`npm i -g vercel\`
+2. Run:  \`vercel login\`
+
+## Deploy
+\`\`\`
+cd vercel
+vercel --prod
+\`\`\`
+
+On first run, Vercel asks to link/create a project. Accept defaults.
+
+## Custom domain
+\`\`\`
+vercel domains add {{DOMAIN}}
+vercel domains add www.{{DOMAIN}}
+\`\`\`
+
+Add the DNS records Vercel shows you at your registrar. TLS auto-provisions.
+
+## What's in this kit
+- \`index.html\`         — your portfolio (domain already rewritten)
+- \`vercel.json\`         — security headers, CSP, redirects, caching
+- \`robots.txt\`          — crawl rules + AI-scraper blocks
+- \`sitemap.xml\`         — search-engine index
+- \`manifest.json\`       — PWA manifest
+- \`.well-known/security.txt\` — responsible disclosure
+
+Generated {{TIMESTAMP}} by the uvwx deployment wizard.
+`,
+
+  // ===== NETLIFY =====
+  "netlify/netlify.toml": `# netlify.toml — {{DOMAIN}}
+[build]
+  publish = "."
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https:; frame-ancestors 'self'; base-uri 'self'; form-action 'self';"
+
+[[redirects]]
+  from = "https://www.{{DOMAIN}}/*"
+  to = "{{URL_APEX}}/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/home"
+  to = "/"
+  status = 301
+`,
+
+  "netlify/_headers": `/*
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https:; frame-ancestors 'self'; base-uri 'self'; form-action 'self';
+
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+`,
+
+  "netlify/_redirects": `https://www.{{DOMAIN}}/*  {{URL_APEX}}/:splat  301!
+/home  /  301
+/*    /index.html    200
+`,
+
+  "netlify/README.md": `# Netlify Deployment Kit — {{DOMAIN}}
+
+## Option A — Drag & drop (easiest)
+1. Open https://app.netlify.com/drop
+2. Drag this entire \`netlify/\` folder
+3. Done. Get a \`*.netlify.app\` URL immediately.
+
+## Option B — CLI
+\`\`\`
+npm i -g netlify-cli
+netlify login
+cd netlify
+netlify deploy --prod --dir=.
+\`\`\`
+
+## Custom domain
+In Netlify dashboard → Site settings → Domain management → Add custom domain → \`{{DOMAIN}}\`.
+
+## What's in this kit
+- \`index.html\`         — your portfolio
+- \`netlify.toml\`        — build config, redirects, headers
+- \`_headers\`            — security headers
+- \`_redirects\`          — apex redirect, SPA fallback
+- \`robots.txt\`, \`sitemap.xml\`, \`manifest.json\`
+
+Generated {{TIMESTAMP}}.
+`,
+
+  // ===== CLOUDFLARE PAGES =====
+  "cloudflare-pages/_headers": `/*
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https:; frame-ancestors 'self'; base-uri 'self'; form-action 'self';
+
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+`,
+
+  "cloudflare-pages/_redirects": `https://www.{{DOMAIN}}/*  {{URL_APEX}}/:splat  301!
+/home  /  301
+`,
+
+  "cloudflare-pages/wrangler.toml": `name = "uvwx-portfolio"
+compatibility_date = "2026-04-19"
+pages_build_output_dir = "."
+`,
+
+  "cloudflare-pages/README.md": `# Cloudflare Pages Deployment Kit — {{DOMAIN}}
+
+## Deploy via Wrangler CLI
+\`\`\`
+npm i -g wrangler
+wrangler login
+cd cloudflare-pages
+wrangler pages deploy . --project-name=uvwx-portfolio
+\`\`\`
+
+## Deploy via dashboard (drag-drop)
+1. https://dash.cloudflare.com → Pages → Create a project → Direct Upload
+2. Drag this folder, project name: \`uvwx-portfolio\`
+
+## Custom domain
+Pages project → Custom domains → Set up a custom domain → \`{{DOMAIN}}\`.
+If your domain is already on Cloudflare DNS, CNAME record is automatic.
+
+## What's in this kit
+- \`index.html\` — your portfolio
+- \`_headers\`, \`_redirects\`, \`wrangler.toml\`
+- \`robots.txt\`, \`sitemap.xml\`, \`manifest.json\`
+
+Generated {{TIMESTAMP}}.
+`,
+
+  // ===== GITHUB PAGES =====
+  "github-pages/CNAME": `{{DOMAIN}}
+`,
+
+  "github-pages/.nojekyll": ``,
+
+  "github-pages/.github/workflows/deploy.yml": `name: Deploy to GitHub Pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+name: github-pages
+url: \${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+- uses: actions/checkout@v4
+- uses: actions/configure-pages@v5
+- uses: actions/upload-pages-artifact@v3
+  with:
+    path: '.'
+- id: deployment
+  uses: actions/deploy-pages@v4
+`,
+
+  "github-pages/README.md": `# GitHub Pages Deployment Kit — {{DOMAIN}}
+
+## Setup
+1. Create a repo: \`{{OWNER_SLUG}}.github.io\` (or any name)
+2. Copy the contents of this \`github-pages/\` folder to repo root
+3. Commit & push to \`main\`
+
+## Enable Pages
+Repo → Settings → Pages → Source: **GitHub Actions**
+The workflow in \`.github/workflows/deploy.yml\` runs on every push.
+
+## Custom domain
+The \`CNAME\` file already contains \`{{DOMAIN}}\`. At your registrar, add:
+- \`A\`     \`@\`    \`185.199.108.153\`
+- \`A\`     \`@\`    \`185.199.109.153\`
+- \`A\`     \`@\`    \`185.199.110.153\`
+- \`A\`     \`@\`    \`185.199.111.153\`
+- \`CNAME\` \`www\`  \`{{OWNER_SLUG}}.github.io\`
+
+In repo → Settings → Pages → Custom domain → enter \`{{DOMAIN}}\` → save. Wait for the green check, then tick **Enforce HTTPS**.
+
+⚠️  **Note:** GitHub Pages has no server-side header support, so CSP/HSTS/security headers are NOT enforced. For stricter security, pair with Cloudflare in front.
+
+## What's in this kit
+- \`index.html\` — your portfolio
+- \`CNAME\` — custom domain binding
+- \`.nojekyll\` — skip Jekyll processing
+- \`.github/workflows/deploy.yml\` — auto-deploy Action
+- \`robots.txt\`, \`sitemap.xml\`, \`manifest.json\`
+
+Generated {{TIMESTAMP}}.
+`,
+
+  // ===== MAC + CLOUDFLARE TUNNEL =====
+  "mac-cloudflare-tunnel/Caddyfile": `{{DOMAIN}} {
+    root * /Users/$(whoami)/uvwx-portfolio
+    file_server
+    encode gzip zstd
+
+    header {
+  Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+  X-Content-Type-Options "nosniff"
+  X-Frame-Options "SAMEORIGIN"
+  Referrer-Policy "strict-origin-when-cross-origin"
+  Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+  Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https:; frame-ancestors 'self'; base-uri 'self'; form-action 'self';"
+  -Server
+    }
+
+    handle_errors {
+  respond "{err.status_code} {err.status_text}" {err.status_code}
+    }
+
+    log {
+  output file /tmp/caddy-{{DOMAIN}}.log
+  format console
+    }
+
+    @disallowed {
+  path /.git* /.env* /admin* /wp-admin* /wp-login.php
+    }
+    respond @disallowed 404
+}
+`,
+
+  "mac-cloudflare-tunnel/tunnel-config.yml": `# cloudflared tunnel config
+# Replace TUNNEL_UUID after running: cloudflared tunnel create uvwx
+tunnel: TUNNEL_UUID
+credentials-file: /Users/YOUR_MAC_USER/.cloudflared/TUNNEL_UUID.json
+
+ingress:
+  - hostname: {{DOMAIN}}
+    service: http://localhost:8080
+  - hostname: www.{{DOMAIN}}
+    service: http://localhost:8080
+  - service: http_status:404
+`,
+
+  "mac-cloudflare-tunnel/start-tunnel.sh": `#!/usr/bin/env bash
+# Start Caddy + Cloudflare tunnel for {{DOMAIN}}
+set -euo pipefail
+
+KIT_DIR="$(cd "$(dirname "\${BASH_SOURCE[0]}")" && pwd)"
+SITE_DIR="$HOME/uvwx-portfolio"
+
+# 1. Make sure the site dir exists with the HTML
+mkdir -p "$SITE_DIR"
+cp "$KIT_DIR/index.html"     "$SITE_DIR/"
+cp "$KIT_DIR/robots.txt"     "$SITE_DIR/" 2>/dev/null || true
+cp "$KIT_DIR/sitemap.xml"    "$SITE_DIR/" 2>/dev/null || true
+cp "$KIT_DIR/manifest.json"  "$SITE_DIR/" 2>/dev/null || true
+
+# 2. Check deps
+command -v caddy >/dev/null || { echo "Install Caddy: brew install caddy"; exit 1; }
+command -v cloudflared >/dev/null || { echo "Install cloudflared: brew install cloudflared"; exit 1; }
+
+# 3. Start Caddy on localhost:8080 (tunnel terminates TLS)
+echo ">> Starting Caddy on localhost:8080…"
+caddy run --config "$KIT_DIR/Caddyfile.local" &
+CADDY_PID=$!
+
+# 4. Start tunnel
+echo ">> Starting Cloudflare tunnel…"
+cloudflared tunnel --config "$KIT_DIR/tunnel-config.yml" run
+
+# cleanup on exit
+trap "kill $CADDY_PID 2>/dev/null" EXIT
+`,
+
+  "mac-cloudflare-tunnel/Caddyfile.local": `:8080 {
+    root * /Users/{USERNAME}/uvwx-portfolio
+    file_server
+    encode gzip zstd
+    header {
+  X-Content-Type-Options "nosniff"
+  X-Frame-Options "SAMEORIGIN"
+  Referrer-Policy "strict-origin-when-cross-origin"
+  -Server
+    }
+}
+`,
+
+  "mac-cloudflare-tunnel/com.uvwx.tunnel.plist": `<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key><string>com.uvwx.tunnel</string>
+    <key>ProgramArguments</key>
+    <array>
+  <string>/bin/bash</string>
+  <string>-c</string>
+  <string>cd ~/Deploy/mac-cloudflare-tunnel &amp;&amp; ./start-tunnel.sh</string>
+    </array>
+    <key>RunAtLoad</key><true/>
+    <key>KeepAlive</key><true/>
+    <key>StandardOutPath</key><string>/tmp/uvwx-tunnel.out.log</string>
+    <key>StandardErrorPath</key><string>/tmp/uvwx-tunnel.err.log</string>
+</dict>
+</plist>
+`,
+
+  "mac-cloudflare-tunnel/README.md": `# Mac + Cloudflare Tunnel Kit — {{DOMAIN}}
+
+Serve your portfolio from your Mac, reachable publicly at \`https://{{DOMAIN}}\`, via a Cloudflare tunnel (no port forwarding, free).
+
+## Prereqs
+\`\`\`
+brew install caddy cloudflared
+\`\`\`
+Your domain must be on Cloudflare DNS.
+
+## One-time setup
+\`\`\`
+cd mac-cloudflare-tunnel
+cloudflared login                         # opens browser, authorize
+cloudflared tunnel create uvwx            # writes credentials file
+# Copy the tunnel UUID shown, paste into tunnel-config.yml
+cloudflared tunnel route dns uvwx {{DOMAIN}}
+cloudflared tunnel route dns uvwx www.{{DOMAIN}}
+\`\`\`
+
+## Run manually
+\`\`\`
+chmod +x start-tunnel.sh
+./start-tunnel.sh
+\`\`\`
+
+## Run at login (persistent)
+\`\`\`
+mkdir -p ~/Deploy
+cp -R ../mac-cloudflare-tunnel ~/Deploy/
+cp com.uvwx.tunnel.plist ~/Library/LaunchAgents/
+launchctl load ~/Library/LaunchAgents/com.uvwx.tunnel.plist
+\`\`\`
+
+Check logs: \`tail -f /tmp/uvwx-tunnel.out.log\`.
+Unload: \`launchctl unload ~/Library/LaunchAgents/com.uvwx.tunnel.plist\`.
+
+## What's in this kit
+- \`index.html\` — your portfolio
+- \`Caddyfile\`            — public config (for reference, not used in tunnel mode)
+- \`Caddyfile.local\`       — :8080 config used behind tunnel
+- \`tunnel-config.yml\`     — cloudflared routing
+- \`start-tunnel.sh\`       — runs Caddy + tunnel together
+- \`com.uvwx.tunnel.plist\` — launchd agent for auto-start
+- \`robots.txt\`, \`sitemap.xml\`, \`manifest.json\`
+
+Generated {{TIMESTAMP}}.
+`,
+
+  // ===== MAC LOCAL =====
+  "mac-local/Caddyfile": `:8080 {
+    root * .
+    file_server browse
+    encode gzip zstd
+
+    header {
+  X-Content-Type-Options "nosniff"
+  X-Frame-Options "SAMEORIGIN"
+  Referrer-Policy "strict-origin-when-cross-origin"
+  -Server
+    }
+
+    log {
+  output stdout
+  format console
+    }
+}
+`,
+
+  "mac-local/start-caddy.sh": `#!/usr/bin/env bash
+# Serve portfolio locally at http://localhost:8080
+set -euo pipefail
+cd "$(dirname "\${BASH_SOURCE[0]}")"
+
+command -v caddy >/dev/null || { echo "Install Caddy: brew install caddy"; exit 1; }
+
+echo ">> Caddy serving ./ on http://localhost:8080"
+echo ">> Ctrl-C to stop"
+caddy run --config Caddyfile
+`,
+
+  "mac-local/start-node.sh": `#!/usr/bin/env bash
+# Alternative: serve with Node's http-server (no Caddy install required)
+set -euo pipefail
+cd "$(dirname "\${BASH_SOURCE[0]}")"
+
+command -v npx >/dev/null || { echo "Install Node first: brew install node"; exit 1; }
+
+echo ">> http-server on http://localhost:8080"
+echo ">> Ctrl-C to stop"
+npx --yes http-server -p 8080 -c-1 --silent
+`,
+
+  "mac-local/com.uvwx.local.plist": `<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key><string>com.uvwx.local</string>
+    <key>ProgramArguments</key>
+    <array>
+  <string>/bin/bash</string>
+  <string>-c</string>
+  <string>cd ~/Deploy/mac-local &amp;&amp; ./start-caddy.sh</string>
+    </array>
+    <key>RunAtLoad</key><true/>
+    <key>KeepAlive</key><false/>
+    <key>StandardOutPath</key><string>/tmp/uvwx-local.out.log</string>
+    <key>StandardErrorPath</key><string>/tmp/uvwx-local.err.log</string>
+</dict>
+</plist>
+`,
+
+  "mac-local/README.md": `# Mac Local Dev Kit — {{DOMAIN}}
+
+Serve your portfolio on \`http://localhost:8080\` for local preview and testing. No external access — pair with the tunnel kit for public hosting.
+
+## Option 1 — Caddy (recommended, adds security headers)
+\`\`\`
+brew install caddy
+chmod +x start-caddy.sh
+./start-caddy.sh
+\`\`\`
+Open http://localhost:8080
+
+## Option 2 — Node http-server (zero config)
+\`\`\`
+chmod +x start-node.sh
+./start-node.sh
+\`\`\`
+
+## Run at login (Caddy)
+\`\`\`
+mkdir -p ~/Deploy
+cp -R ../mac-local ~/Deploy/
+cp com.uvwx.local.plist ~/Library/LaunchAgents/
+launchctl load ~/Library/LaunchAgents/com.uvwx.local.plist
+\`\`\`
+Unload: \`launchctl unload ~/Library/LaunchAgents/com.uvwx.local.plist\`
+
+## What's in this kit
+- \`index.html\`              — your portfolio
+- \`Caddyfile\`               — local Caddy config
+- \`start-caddy.sh\`          — Caddy launcher
+- \`start-node.sh\`           — http-server launcher (no Caddy needed)
+- \`com.uvwx.local.plist\`    — launchd agent
+- \`robots.txt\`, \`sitemap.xml\`, \`manifest.json\`
+
+Generated {{TIMESTAMP}}.
+`,
+
+  // ===== MASTER BUNDLE FILES =====
+  "deploy.config": `# uvwx deployment config — generated {{TIMESTAMP}}
+# Single source of truth. Edit and re-run build.sh to regenerate any kit.
+DOMAIN={{DOMAIN}}
+URL_APEX={{URL_APEX}}
+URL_WWW={{URL_WWW}}
+EMAIL={{EMAIL}}
+OWNER={{OWNER}}
+TITLE={{TITLE}}
+`,
+
+  "build.sh": `#!/usr/bin/env bash
+# build.sh — regenerate all kits from deploy.config and the source portfolio
+# Usage:  ./build.sh [--domain new.tld]
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "\${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
+
+# Load config
+[[ -f deploy.config ]] || { echo "Missing deploy.config"; exit 1; }
+set -a; source ./deploy.config; set +a
+
+# CLI override
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+  --domain) DOMAIN="$2"; URL_APEX="https://$2"; URL_WWW="https://www.$2"; shift 2 ;;
+  *) shift ;;
+    esac
+done
+
+echo ">> Building with DOMAIN=$DOMAIN"
+
+# Swap {{placeholders}} in every text file inside each kit folder
+for kit in */; do
+    kit="\${kit%/}"
+    [[ "$kit" == "__src" ]] && continue
+    echo "   → $kit"
+    find "$kit" -type f \\( -name '*.html' -o -name '*.json' -o -name '*.toml' -o -name '*.yml' -o -name '*.yaml' -o -name '*.xml' -o -name '*.txt' -o -name '*.md' -o -name '*.sh' -o -name 'Caddyfile*' -o -name '_headers' -o -name '_redirects' -o -name 'CNAME' \\) -print0 | while IFS= read -r -d '' f; do
+  sed -i.bak \\
+      -e "s|{{DOMAIN}}|$DOMAIN|g" \\
+      -e "s|{{URL_APEX}}|$URL_APEX|g" \\
+      -e "s|{{URL_WWW}}|$URL_WWW|g" \\
+      -e "s|{{EMAIL}}|$EMAIL|g" \\
+      -e "s|{{OWNER}}|$OWNER|g" \\
+      -e "s|{{TITLE}}|$TITLE|g" \\
+      "$f" && rm -f "\$f.bak"
+    done
+done
+
+echo ">> Done. Each kit is ready to deploy."
+`,
+
+  "README.md": `# uvwx Deployment Bundle — {{DOMAIN}}
+
+Generated {{TIMESTAMP}} by the [uvwx deployment kit wizard](./deploy-wizard.html).
+
+## What's in this bundle
+
+Each top-level folder is a self-contained deployment kit. Every file inside already has your domain (\`{{DOMAIN}}\`) baked in. Pick the platform you want, read its README, deploy.
+
+### Domain-swap workflow
+
+To switch domains later *without* re-running the wizard:
+1. Edit \`deploy.config\` and change the \`DOMAIN=\` line.
+2. Run \`./build.sh\`  — every kit re-regenerates with the new domain.
+
+The build script handles every text file in every kit — \`vercel.json\`, \`_headers\`, \`_redirects\`, \`netlify.toml\`, \`Caddyfile\`, \`CNAME\`, \`robots.txt\`, \`sitemap.xml\`, \`manifest.json\`, \`README.md\`, \`.sh\` scripts, \`.plist\` files. Nothing gets missed.
+
+> ⚠️  **Note:** \`build.sh\` uses \`{{MUSTACHE}}\`-style placeholders. Files shipped from the wizard already have these resolved. The script is useful only if you regenerate from pristine source templates — which this bundle doesn't ship. To re-template from scratch, use the wizard again at a different domain.
+
+## Quick recommendations
+
+| Goal | Use kit |
+|------|---------|
+| Fastest global CDN, zero ops | \`cloudflare-pages\` |
+| Smoothest CLI workflow | \`vercel\` |
+| Drag-and-drop UI | \`netlify\` |
+| Git-push deploy, already on GitHub | \`github-pages\` |
+| Self-host from your Mac, free public URL | \`mac-cloudflare-tunnel\` |
+| Local dev / testing only | \`mac-local\` |
+
+## Security & anti-probe
+
+Every server-side kit enforces:
+- HSTS, X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy
+- Content-Security-Policy with \`frame-ancestors 'self'\`
+- \`robots.txt\` blocks common AI/scraping bots (GPTBot, ClaudeBot, CCBot, Google-Extended, PerplexityBot, etc.)
+- Probe paths (\`.git\`, \`.env\`, \`wp-admin\`, etc.) return 404 on Caddy-backed kits
+
+GitHub Pages is the exception — no server-side headers. Put Cloudflare in front for stricter security.
+
+---
+Bundle version: v1.0 · Generated: {{TIMESTAMP}}
+`,
+};
+
+// Which files go into which kit
+const KIT_FILES = {
+  vercel: [
+    "vercel/vercel.json",
+    "vercel/README.md",
+    "robots.txt",
+    "sitemap.xml",
+    "manifest.json",
+  ],
+  netlify: [
+    "netlify/netlify.toml",
+    "netlify/_headers",
+    "netlify/_redirects",
+    "netlify/README.md",
+    "robots.txt",
+    "sitemap.xml",
+    "manifest.json",
+  ],
+  "cloudflare-pages": [
+    "cloudflare-pages/_headers",
+    "cloudflare-pages/_redirects",
+    "cloudflare-pages/wrangler.toml",
+    "cloudflare-pages/README.md",
+    "robots.txt",
+    "sitemap.xml",
+    "manifest.json",
+  ],
+  "github-pages": [
+    "github-pages/CNAME",
+    "github-pages/.nojekyll",
+    "github-pages/.github/workflows/deploy.yml",
+    "github-pages/README.md",
+    "robots.txt",
+    "sitemap.xml",
+    "manifest.json",
+  ],
+  "mac-cloudflare-tunnel": [
+    "mac-cloudflare-tunnel/Caddyfile",
+    "mac-cloudflare-tunnel/Caddyfile.local",
+    "mac-cloudflare-tunnel/tunnel-config.yml",
+    "mac-cloudflare-tunnel/start-tunnel.sh",
+    "mac-cloudflare-tunnel/com.uvwx.tunnel.plist",
+    "mac-cloudflare-tunnel/README.md",
+    "robots.txt",
+    "sitemap.xml",
+    "manifest.json",
+  ],
+  "mac-local": [
+    "mac-local/Caddyfile",
+    "mac-local/start-caddy.sh",
+    "mac-local/start-node.sh",
+    "mac-local/com.uvwx.local.plist",
+    "mac-local/README.md",
+    "robots.txt",
+    "sitemap.xml",
+    "manifest.json",
+  ],
+};
+
+const KIT_LABELS = {
+  vercel: "Vercel",
+  netlify: "Netlify",
+  "cloudflare-pages": "Cloudflare Pages",
+  "github-pages": "GitHub Pages",
+  "mac-cloudflare-tunnel": "Mac + Cloudflare Tunnel",
+  "mac-local": "Mac Local",
+};
+
+// ==============================================================
+// STATE
+// ==============================================================
+
+export { TEMPLATES, KIT_FILES, KIT_LABELS };
+
+"use strict";
+
+// ==============================================================
+// TEMPLATES — every {{PLACEHOLDER}} gets substituted at gen time
+// ==============================================================
+// Placeholders:
+//   {{DOMAIN}}      → uvwx.info
+//   {{URL_APEX}}    → https://uvwx.info
+//   {{URL_WWW}}     → https://www.uvwx.info
+//   {{EMAIL}}       → hello@uvwx.info
+//   {{OWNER}}       → Mohan Venkatesh
+//   {{TITLE}}       → Mohan Venkatesh · UX Portfolio
+//   {{TIMESTAMP}}   → 2026-04-19T…
+
+
+
+const state = {
+  domain: "",
+  srcDomain: "uvwx.me",
+  email: "",
+  owner: "Mohan Venkatesh",
+  title: "Mohan Venkatesh · UX Portfolio",
+  file: null,
+  fileContent: null,
+  kits: new Set(["vercel"]),
+};
+
+// ==============================================================
+// HELPERS
+// ==============================================================
+function $(sel) {
+  return document.querySelector(sel);
+}
+function $(sel) {
+  return Array.from(document.querySelectorAll(sel));
+}
+
+function log(msg, cls = "") {
+  const box = $("#log");
+  if (box.querySelector(".log-empty")) box.innerHTML = "";
+  const line = document.createElement("div");
+  line.className = "line" + (cls ? " " + cls : "");
+  line.textContent = msg;
+  box.appendChild(line);
+  box.scrollTop = box.scrollHeight;
+}
+function clearLog() {
+  $("#log").innerHTML =
+    '<div class="line log-empty">Waiting… fill out steps 1–3, then click Generate.</div>';
+}
+
+function validDomain(d) {
+  return (
+    /^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,}$/i.test(d) &&
+    !d.includes("://") &&
+    !d.startsWith("www.")
+  );
+}
+function validEmail(e) {
+  return e === "" || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+}
+function slugify(s) {
+  return s
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function substitute(tpl, vars) {
+  return tpl.replace(/\{\{([A-Z_]+)\}\}/g, (_, k) =>
+    vars[k] !== undefined ? vars[k] : "{{" + k + "}}",
+  );
+}
+
+function buildVars() {
+  const now = new Date();
+  const expires = new Date(now.getTime() + 365 * 24 * 3600 * 1000);
+  return {
+    DOMAIN: state.domain,
+    URL_APEX: "https://" + state.domain,
+    URL_WWW: "https://www." + state.domain,
+    EMAIL: state.email || "contact@" + state.domain,
+    OWNER: state.owner || "Mohan Venkatesh",
+    OWNER_SLUG: slugify(state.owner || "mohan-venkatesh"),
+    TITLE:
+      state.title || (state.owner || "Mohan Venkatesh") + " · UX Portfolio",
+    TIMESTAMP: now.toISOString(),
+    TIMESTAMP_DATE: now.toISOString().slice(0, 10),
+    EXPIRES: expires.toISOString(),
+  };
+}
+
+function rewriteHtml(html, vars, srcDomain) {
+  // Rewrite every reference to srcDomain → new domain inside the portfolio HTML.
+  // Catches: canonical, og:url, twitter:url, schema.org @id, hrefs, mailto:,
+  // breadcrumb labels, footer tagline, JS-embedded strings, WhatsApp preview templates.
+  if (!html || !srcDomain) return { html: html || "", stats: {} };
+  let out = html;
+  const stats = {};
+  function swap(label, from, to) {
+    const parts = out.split(from);
+    if (parts.length > 1) {
+      stats[label] = parts.length - 1;
+      out = parts.join(to);
+    }
+  }
+  // Order matters: most specific first, bare fallback last
+  swap(
+    "https://www." + srcDomain,
+    "https://www." + srcDomain,
+    "https://www." + vars.DOMAIN,
+  );
+  swap(
+    "https://" + srcDomain,
+    "https://" + srcDomain,
+    "https://" + vars.DOMAIN,
+  );
+  swap(
+    "http://www." + srcDomain,
+    "http://www." + srcDomain,
+    "https://www." + vars.DOMAIN,
+  );
+  swap("http://" + srcDomain, "http://" + srcDomain, "https://" + vars.DOMAIN);
+  swap("@" + srcDomain, "@" + srcDomain, "@" + vars.DOMAIN);
+  swap("www." + srcDomain, "www." + srcDomain, "www." + vars.DOMAIN);
+  swap("bare " + srcDomain, srcDomain, vars.DOMAIN);
+  return { html: out, stats };
+}
+
+// ==============================================================
+// WIRING
+// ==============================================================
+function updateStepper() {
+  const done = {
+    1: state.domain && validDomain(state.domain) && validEmail(state.email),
+    2: !!state.fileContent,
+    3: state.kits.size > 0,
+  };
+  $("#stepper .s").forEach((el) => {
+    const n = +el.dataset.step;
+    el.classList.remove("on", "done");
+    if (n < 4 && done[n]) el.classList.add("done");
+    const allPrev = [1, 2, 3].filter((x) => x < n).every((x) => done[x]);
+    if (!done[n] && allPrev) el.classList.add("on");
+  });
+  // gen button
+  $("#btn-gen").disabled = !(done[1] && done[2] && done[3]);
+}
+
+$("#fld-domain").addEventListener("input", (e) => {
+  state.domain = e.target.value
+    .trim()
+    .replace(/^https?:\/\//, "")
+    .replace(/^www\./, "")
+    .replace(/\/$/, "");
+  const fg = $("#fg-domain");
+  if (state.domain && !validDomain(state.domain)) fg.classList.add("has-err");
+  else fg.classList.remove("has-err");
+  updateStepper();
+});
+$("#fld-email").addEventListener("input", (e) => {
+  state.email = e.target.value.trim();
+  const fg = $("#fg-email");
+  if (state.email && !validEmail(state.email)) fg.classList.add("has-err");
+  else fg.classList.remove("has-err");
+  updateStepper();
+});
+$("#fld-srcdomain").addEventListener("input", (e) => {
+  state.srcDomain = e.target.value
+    .trim()
+    .replace(/^https?:\/\//, "")
+    .replace(/^www\./, "")
+    .replace(/\/$/, "");
+  const fg = $("#fg-srcdomain");
+  if (state.srcDomain && !validDomain(state.srcDomain))
+    fg.classList.add("has-err");
+  else fg.classList.remove("has-err");
+});
+$("#fld-owner").addEventListener("input", (e) => {
+  state.owner = e.target.value.trim() || "Mohan Venkatesh";
+});
+$("#fld-title").addEventListener("input", (e) => {
+  state.title = e.target.value.trim();
+});
+
+$("#fld-file").addEventListener("change", async (e) => {
+  const f = e.target.files[0];
+  if (!f) return;
+  state.file = f;
+  const zone = $("#up-zone");
+  const meta = $("#up-meta");
+  meta.textContent = "";
+  try {
+    const text = await f.text();
+    state.fileContent = text;
+    zone.classList.add("has-file");
+    const sizeKb = (f.size / 1024).toFixed(0);
+    meta.textContent = `✓ ${f.name} · ${sizeKb >= 1024 ? (sizeKb / 1024).toFixed(2) + " MB" : sizeKb + " KB"} · ${text.length.toLocaleString()} chars`;
+    updateStepper();
+  } catch (err) {
+    zone.classList.remove("has-file");
+    meta.textContent = "✗ Read failed: " + err.message;
+    state.fileContent = null;
+    updateStepper();
+  }
+});
+
+$(".kit input").forEach((cb) => {
+  cb.addEventListener("change", (e) => {
+    const kit = cb.dataset.kit;
+    if (cb.checked) state.kits.add(kit);
+    else state.kits.delete(kit);
+    cb.closest(".kit").classList.toggle("active", cb.checked);
+    updateStepper();
+  });
+  // initial
+  if (cb.checked) {
+    state.kits.add(cb.dataset.kit);
+    cb.closest(".kit").classList.add("active");
+  }
+});
+
+$("#btn-all").addEventListener("click", () => {
+  $(".kit input").forEach((cb) => {
+    cb.checked = true;
+    cb.dispatchEvent(new Event("change"));
+  });
+});
+$("#btn-none").addEventListener("click", () => {
+  $(".kit input").forEach((cb) => {
+    cb.checked = false;
+    cb.dispatchEvent(new Event("change"));
+  });
+});
+
+// ==============================================================
+// GENERATE
+// ==============================================================
+$("#btn-gen").addEventListener("click", async () => {
+  clearLog();
+  $("#done").classList.remove("show");
+
+  if (typeof JSZip === "undefined") {
+    log("✗ JSZip failed to load from CDN. Check network / CSP.", "err");
+    return;
+  }
+
+  const vars = buildVars();
+  log(`▶ Building deployment bundle for ${vars.DOMAIN}`, "ok");
+  log(`  kits: ${[...state.kits].join(", ")}`);
+  log(
+    `  portfolio: ${state.file.name} (${state.fileContent.length.toLocaleString()} chars)`,
+  );
+  log("");
+
+  try {
+    const zip = new JSZip();
+    const rwResult = rewriteHtml(state.fileContent, vars, state.srcDomain);
+    const rewrittenHtml = rwResult.html;
+    const totalRewrites = Object.values(rwResult.stats).reduce(
+      (a, b) => a + b,
+      0,
+    );
+    log(
+      `  rewrote ${totalRewrites} reference(s) of "${state.srcDomain}" → "${vars.DOMAIN}" in portfolio HTML`,
+      totalRewrites ? "ok" : "warn",
+    );
+    for (const [label, n] of Object.entries(rwResult.stats)) {
+      log(`      ${n.toString().padStart(4)}× ${label}`, "muted");
+    }
+    // Final sanity: if any src-domain refs remain, flag them
+    const leftover = (
+      rewrittenHtml.match(
+        new RegExp(state.srcDomain.replace(/\./g, "\\."), "g"),
+      ) || []
+    ).length;
+    if (leftover) {
+      log(
+        `  ⚠ ${leftover} reference(s) of "${state.srcDomain}" still remain in output (check for unusual formatting)`,
+        "warn",
+      );
+    }
+
+    // Root-level files (shared across bundle)
+    zip.file("README.md", substitute(TEMPLATES["README.md"], vars));
+    zip.file("deploy.config", substitute(TEMPLATES["deploy.config"], vars));
+    zip.file("build.sh", substitute(TEMPLATES["build.sh"], vars));
+    log("  + README.md, deploy.config, build.sh (bundle root)");
+
+    // Per-kit folders
+    for (const kit of state.kits) {
+      const files = KIT_FILES[kit];
+      log(`  ▸ ${kit}/ ${KIT_LABELS[kit]}`, "ok");
+
+      // index.html (rewritten portfolio) into each kit
+      zip.file(`${kit}/index.html`, rewrittenHtml);
+      log(
+        `      + ${kit}/index.html  (${(rewrittenHtml.length / 1024 / 1024).toFixed(2)} MB)`,
+      );
+
+      for (const f of files) {
+        // Path inside kit: strip the kit-prefix if present
+        let zipPath, tplKey;
+        if (f.startsWith(kit + "/")) {
+          zipPath = f; // e.g. vercel/vercel.json
+          tplKey = f;
+        } else {
+          // shared templates (robots.txt, sitemap.xml, manifest.json)
+          zipPath = `${kit}/${f}`;
+          tplKey = f;
+        }
+        const raw = TEMPLATES[tplKey];
+        if (raw === undefined) {
+          log(`      ✗ template missing: ${tplKey}`, "err");
+          continue;
+        }
+        const rendered = substitute(raw, vars);
+        zip.file(zipPath, rendered);
+        log(`      + ${zipPath}`);
+      }
+
+      // security.txt if email provided
+      if (state.email) {
+        zip.file(
+          `${kit}/.well-known/security.txt`,
+          substitute(TEMPLATES["security.txt"], vars),
+        );
+        log(`      + ${kit}/.well-known/security.txt`);
+      }
+    }
+
+    // Sanity check
+    if (state.kits.size === 0) {
+      log("✗ No kits selected.", "err");
+      return;
+    }
+
+    log("");
+    log("▶ Zipping…");
+    const blob = await zip.generateAsync(
+      {
+        type: "blob",
+        compression: "DEFLATE",
+        compressionOptions: { level: 6 },
+      },
+      (meta) => {
+        // occasional progress ping
+        if (Math.round(meta.percent) % 25 === 0) {
+          // skip — too chatty
+        }
+      },
+    );
+    const sizeMb = (blob.size / 1024 / 1024).toFixed(2);
+    log(`✓ Bundle built: ${sizeMb} MB`, "ok");
+
+    const url = URL.createObjectURL(blob);
+    const dl = $("#dl-link");
+    dl.href = url;
+    dl.download = `uvwx-deploy-${vars.DOMAIN}-${vars.TIMESTAMP_DATE}.zip`;
+    $("#done-summary").textContent =
+      `${state.kits.size} kit${state.kits.size > 1 ? "s" : ""} · ${sizeMb} MB · domain baked in: ${vars.DOMAIN}`;
+    $("#done").classList.add("show");
+    log("");
+    log("▶ Click the green download button below to save the zip.", "ok");
+  } catch (err) {
+    console.error(err);
+    log("✗ " + err.message, "err");
+  }
+});
+
+// Initial draw
+updateStepper();
+})();
+</script>
+  </body>
+</html>
