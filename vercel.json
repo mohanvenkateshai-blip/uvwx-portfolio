@@ -3,10 +3,6 @@
     {
       "source": "/jobs/:path*",
       "destination": "https://ux-job-radar.vercel.app/jobs/:path*"
-    },
-    {
-      "source": "/",
-      "destination": "/portfolio_v8.html"
     }
   ],
   "redirects": [
