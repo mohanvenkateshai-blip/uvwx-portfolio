@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/jobs",
+      "destination": "https://ux-job-radar.vercel.app/jobs"
+    },
+    {
       "source": "/jobs/:path*",
       "destination": "https://ux-job-radar.vercel.app/jobs/:path*"
     }
