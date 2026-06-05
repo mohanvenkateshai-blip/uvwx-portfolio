@@ -364,6 +364,12 @@ body {
 }
 
 /* Upload */
+.upload-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
 .up {
   border: 1.5px dashed var(--rule2);
   border-radius: var(--radius);
@@ -614,12 +620,11 @@ body {
 
       <!-- STEP 2: Upload -->
       <div class="card">
-        <h2>Step 2 · Upload Portfolio HTML</h2>
+        <h2>Step 2 · Upload Portfolio Source</h2>
         <div class="card-sub">
-          Drop in your portfolio HTML. The wizard rewrites every reference to
-          the <em>source domain</em> (URLs, emails, breadcrumb labels, footer
-          tagline, JS strings, WhatsApp message template) to match your new
-          target domain, then ships the patched copy inside each kit.
+          Select the full portfolio folder when assets, verification files, and
+          case-study files need to ship together. A single HTML file still works
+          for older one-file portfolio exports.
         </div>
         <div class="fg" id="fg-srcdomain">
           <label for="fld-srcdomain"
@@ -637,12 +642,20 @@ body {
           </div>
           <div class="err">Invalid domain</div>
         </div>
-        <label class="up" id="up-zone">
-          <input type="file" id="fld-file" accept=".html,text/html" />
-          <div class="up-icon">[ DROP OR CLICK TO SELECT ]</div>
-          <div class="up-txt">portfolio_v7.html — or any HTML file</div>
-          <div class="up-meta" id="up-meta"></div>
-        </label>
+        <div class="upload-grid">
+          <label class="up" id="up-folder-zone">
+            <input type="file" id="fld-folder" webkitdirectory directory multiple />
+            <div class="up-icon">[ SELECT PORTFOLIO FOLDER ]</div>
+            <div class="up-txt">Recommended: choose the project root folder</div>
+            <div class="up-meta" id="up-folder-meta"></div>
+          </label>
+          <label class="up" id="up-zone">
+            <input type="file" id="fld-file" accept=".html,text/html" />
+            <div class="up-icon">[ SELECT SINGLE HTML ]</div>
+            <div class="up-txt">Fallback: index.html or one exported HTML file</div>
+            <div class="up-meta" id="up-meta"></div>
+          </label>
+        </div>
       </div>
 
       <!-- STEP 3: Kit selection -->
@@ -1407,7 +1420,7 @@ echo ">> Done. Each kit is ready to deploy."
 
   "README.md": `# uvwx Deployment Bundle — {{DOMAIN}}
 
-Generated {{TIMESTAMP}} by the [uvwx deployment kit wizard](./deploy-wizard.html).
+Generated {{TIMESTAMP}} by the uvwx deployment kit wizard.
 
 ## What's in this bundle
 
@@ -1520,25 +1533,6 @@ const KIT_LABELS = {
 // ==============================================================
 // STATE
 // ==============================================================
-
-export { TEMPLATES, KIT_FILES, KIT_LABELS };
-
-"use strict";
-
-// ==============================================================
-// TEMPLATES — every {{PLACEHOLDER}} gets substituted at gen time
-// ==============================================================
-// Placeholders:
-//   {{DOMAIN}}      → uvwx.info
-//   {{URL_APEX}}    → https://uvwx.info
-//   {{URL_WWW}}     → https://www.uvwx.info
-//   {{EMAIL}}       → hello@uvwx.info
-//   {{OWNER}}       → Mohan Venkatesh
-//   {{TITLE}}       → Mohan Venkatesh · UX Portfolio
-//   {{TIMESTAMP}}   → 2026-04-19T…
-
-
-
 const state = {
   domain: "",
   srcDomain: "uvwx.me",
@@ -1547,6 +1541,11 @@ const state = {
   title: "Mohan Venkatesh · UX Portfolio",
   file: null,
   fileContent: null,
+  sourceFiles: [],
+  sourceMode: "",
+  sourceIndexPath: "",
+  sourceTotalBytes: 0,
+  sourceSkipped: 0,
   kits: new Set(["vercel"]),
 };
 
@@ -1556,7 +1555,7 @@ const state = {
 function $(sel) {
   return document.querySelector(sel);
 }
-function $(sel) {
+function $$(sel) {
   return Array.from(document.querySelectorAll(sel));
 }
 
@@ -1652,6 +1651,198 @@ function rewriteHtml(html, vars, srcDomain) {
   return { html: out, stats };
 }
 
+function prettyBytes(bytes) {
+  if (bytes >= 1024 * 1024) return (bytes / 1024 / 1024).toFixed(2) + " MB";
+  if (bytes >= 1024) return Math.round(bytes / 1024) + " KB";
+  return bytes + " B";
+}
+
+function sourceSummary() {
+  if (!state.sourceFiles.length) return "No portfolio source selected";
+  if (state.sourceMode === "folder") {
+    return `${state.sourceFiles.length} file(s), ${prettyBytes(state.sourceTotalBytes)}, index: ${state.sourceIndexPath}`;
+  }
+  return `${state.file.name}, ${prettyBytes(state.sourceTotalBytes)}`;
+}
+
+function normalizePath(path, rootSegment) {
+  let rel = (path || "").replace(/\\/g, "/").replace(/^\/+/, "");
+  if (rootSegment && rel.startsWith(rootSegment + "/")) {
+    rel = rel.slice(rootSegment.length + 1);
+  }
+  return rel;
+}
+
+function inferRootSegment(files) {
+  const paths = Array.from(files)
+    .map((file) => file.webkitRelativePath || file.name)
+    .filter((path) => path.includes("/"));
+  if (!paths.length) return "";
+  const first = paths[0].split("/")[0];
+  return paths.every((path) => path.split("/")[0] === first) ? first : "";
+}
+
+function isTextSource(path) {
+  const name = path.split("/").pop();
+  return (
+    /(\.html?|\.css|\.m?js|\.json|\.xml|\.txt|\.md|\.toml|\.ya?ml|\.sh|\.plist|\.svg|\.webmanifest|\.map)$/i.test(
+      path,
+    ) ||
+    [
+      "CNAME",
+      "Caddyfile",
+      "Caddyfile.local",
+      "_headers",
+      "_redirects",
+      ".nojekyll",
+      ".gitignore",
+    ].includes(name)
+  );
+}
+
+function shouldSkipSourcePath(path) {
+  const lower = path.toLowerCase();
+  if (!path || path.includes("..") || path.startsWith("/")) return true;
+  if (lower === ".ds_store" || lower.endsWith("/.ds_store")) return true;
+  if (lower === "readme.md" || lower === ".gitignore") return true;
+  return [
+    ".git/",
+    ".vercel/",
+    "node_modules/",
+    "junk/",
+    "archive/",
+    "source-files/",
+    "tools/",
+  ].some((prefix) => lower.startsWith(prefix));
+}
+
+function shouldSkipSourceForKit(path, kit) {
+  if (path === "vercel.json") return kit !== "vercel";
+  if (path === "netlify.toml") return kit !== "netlify";
+  if (path === "wrangler.toml") return kit !== "cloudflare-pages";
+  if (path === "CNAME" || path === ".nojekyll") return kit !== "github-pages";
+  if (path.startsWith(".github/workflows/")) return kit !== "github-pages";
+  if (
+    ["Caddyfile", "Caddyfile.local", "tunnel-config.yml"].includes(path) ||
+    path.endsWith(".plist") ||
+    path.endsWith(".sh")
+  ) {
+    return !kit.startsWith("mac-");
+  }
+  return false;
+}
+
+function sourceTemplatePath(tplKey) {
+  const direct = {
+    "robots.txt": "robots.txt",
+    "sitemap.xml": "sitemap.xml",
+    "manifest.json": "manifest.json",
+    "vercel/vercel.json": "vercel.json",
+    "netlify/netlify.toml": "netlify.toml",
+    "netlify/_headers": "_headers",
+    "netlify/_redirects": "_redirects",
+    "cloudflare-pages/_headers": "_headers",
+    "cloudflare-pages/_redirects": "_redirects",
+    "cloudflare-pages/wrangler.toml": "wrangler.toml",
+    "github-pages/CNAME": "CNAME",
+    "github-pages/.nojekyll": ".nojekyll",
+    "github-pages/.github/workflows/deploy.yml":
+      ".github/workflows/deploy.yml",
+    "mac-cloudflare-tunnel/Caddyfile": "Caddyfile",
+    "mac-cloudflare-tunnel/Caddyfile.local": "Caddyfile.local",
+    "mac-cloudflare-tunnel/tunnel-config.yml": "tunnel-config.yml",
+    "mac-cloudflare-tunnel/start-tunnel.sh": "start-tunnel.sh",
+    "mac-cloudflare-tunnel/com.uvwx.tunnel.plist": "com.uvwx.tunnel.plist",
+    "mac-local/Caddyfile": "Caddyfile",
+    "mac-local/start-caddy.sh": "start-caddy.sh",
+    "mac-local/start-node.sh": "start-node.sh",
+    "mac-local/com.uvwx.local.plist": "com.uvwx.local.plist",
+  };
+  return direct[tplKey] || null;
+}
+
+function sourceHasPath(path, kit) {
+  return state.sourceFiles.some(
+    (source) => source.path === path && !shouldSkipSourceForKit(path, kit),
+  );
+}
+
+function zipOptionsFor(path) {
+  return /\.sh$/i.test(path) ? { unixPermissions: "755" } : undefined;
+}
+
+function addZipFile(zip, path, content) {
+  zip.file(path, content, zipOptionsFor(path));
+}
+
+function mergeStats(target, next) {
+  for (const [label, count] of Object.entries(next)) {
+    target[label] = (target[label] || 0) + count;
+  }
+}
+
+function addSourceFilesToKit(zip, kit, vars) {
+  const stats = {};
+  let added = 0;
+  let skipped = 0;
+  for (const source of state.sourceFiles) {
+    if (shouldSkipSourceForKit(source.path, kit)) {
+      skipped += 1;
+      continue;
+    }
+    const zipPath = `${kit}/${source.path}`;
+    let content = source.content;
+    if (source.isText) {
+      const rewritten = rewriteHtml(source.content, vars, state.srcDomain);
+      content = rewritten.html;
+      mergeStats(stats, rewritten.stats);
+    }
+    addZipFile(zip, zipPath, content);
+    added += 1;
+  }
+  return { added, skipped, stats };
+}
+
+async function collectFolderSource(fileList) {
+  const files = Array.from(fileList || []);
+  const rootSegment = inferRootSegment(files);
+  const sourceFiles = [];
+  let skipped = 0;
+  let totalBytes = 0;
+
+  for (const file of files) {
+    const rel = normalizePath(file.webkitRelativePath || file.name, rootSegment);
+    if (shouldSkipSourcePath(rel)) {
+      skipped += 1;
+      continue;
+    }
+    const isText = isTextSource(rel);
+    sourceFiles.push({
+      path: rel,
+      file,
+      isText,
+      content: isText ? await file.text() : file,
+      size: file.size,
+    });
+    totalBytes += file.size;
+  }
+
+  const index =
+    sourceFiles.find((source) => source.path === "index.html") ||
+    sourceFiles.find((source) => /\.html?$/i.test(source.path));
+  if (!index || !index.isText) {
+    throw new Error("No index.html or readable HTML file was found.");
+  }
+
+  return {
+    sourceFiles,
+    indexContent: index.content,
+    indexPath: index.path,
+    skipped,
+    totalBytes,
+  };
+}
+
 // ==============================================================
 // WIRING
 // ==============================================================
@@ -1661,7 +1852,7 @@ function updateStepper() {
     2: !!state.fileContent,
     3: state.kits.size > 0,
   };
-  $("#stepper .s").forEach((el) => {
+  $$("#stepper .s").forEach((el) => {
     const n = +el.dataset.step;
     el.classList.remove("on", "done");
     if (n < 4 && done[n]) el.classList.add("done");
@@ -1712,13 +1903,28 @@ $("#fld-file").addEventListener("change", async (e) => {
   const f = e.target.files[0];
   if (!f) return;
   state.file = f;
+  state.sourceMode = "single";
+  state.sourceIndexPath = "index.html";
+  state.sourceSkipped = 0;
+  state.sourceTotalBytes = f.size;
   const zone = $("#up-zone");
   const meta = $("#up-meta");
   meta.textContent = "";
   try {
     const text = await f.text();
     state.fileContent = text;
+    state.sourceFiles = [
+      {
+        path: "index.html",
+        file: f,
+        isText: true,
+        content: text,
+        size: f.size,
+      },
+    ];
     zone.classList.add("has-file");
+    $("#up-folder-zone").classList.remove("has-file");
+    $("#up-folder-meta").textContent = "";
     const sizeKb = (f.size / 1024).toFixed(0);
     meta.textContent = `✓ ${f.name} · ${sizeKb >= 1024 ? (sizeKb / 1024).toFixed(2) + " MB" : sizeKb + " KB"} · ${text.length.toLocaleString()} chars`;
     updateStepper();
@@ -1726,11 +1932,43 @@ $("#fld-file").addEventListener("change", async (e) => {
     zone.classList.remove("has-file");
     meta.textContent = "✗ Read failed: " + err.message;
     state.fileContent = null;
+    state.sourceFiles = [];
     updateStepper();
   }
 });
 
-$(".kit input").forEach((cb) => {
+$("#fld-folder").addEventListener("change", async (e) => {
+  const files = e.target.files;
+  if (!files || !files.length) return;
+  const zone = $("#up-folder-zone");
+  const meta = $("#up-folder-meta");
+  meta.textContent = "";
+  try {
+    const collected = await collectFolderSource(files);
+    state.file = { name: "portfolio folder" };
+    state.sourceMode = "folder";
+    state.sourceFiles = collected.sourceFiles;
+    state.fileContent = collected.indexContent;
+    state.sourceIndexPath = collected.indexPath;
+    state.sourceSkipped = collected.skipped;
+    state.sourceTotalBytes = collected.totalBytes;
+    zone.classList.add("has-file");
+    $("#up-zone").classList.remove("has-file");
+    $("#up-meta").textContent = "";
+    meta.textContent =
+      `✓ ${collected.sourceFiles.length} file(s) · ${prettyBytes(collected.totalBytes)} · index: ${collected.indexPath}` +
+      (collected.skipped ? ` · skipped ${collected.skipped} local file(s)` : "");
+    updateStepper();
+  } catch (err) {
+    zone.classList.remove("has-file");
+    meta.textContent = "✗ Read failed: " + err.message;
+    state.fileContent = null;
+    state.sourceFiles = [];
+    updateStepper();
+  }
+});
+
+$$(".kit input").forEach((cb) => {
   cb.addEventListener("change", (e) => {
     const kit = cb.dataset.kit;
     if (cb.checked) state.kits.add(kit);
@@ -1746,13 +1984,13 @@ $(".kit input").forEach((cb) => {
 });
 
 $("#btn-all").addEventListener("click", () => {
-  $(".kit input").forEach((cb) => {
+  $$(".kit input").forEach((cb) => {
     cb.checked = true;
     cb.dispatchEvent(new Event("change"));
   });
 });
 $("#btn-none").addEventListener("click", () => {
-  $(".kit input").forEach((cb) => {
+  $$(".kit input").forEach((cb) => {
     cb.checked = false;
     cb.dispatchEvent(new Event("change"));
   });
@@ -1773,54 +2011,34 @@ $("#btn-gen").addEventListener("click", async () => {
   const vars = buildVars();
   log(`▶ Building deployment bundle for ${vars.DOMAIN}`, "ok");
   log(`  kits: ${[...state.kits].join(", ")}`);
-  log(
-    `  portfolio: ${state.file.name} (${state.fileContent.length.toLocaleString()} chars)`,
-  );
+  log(`  portfolio source: ${sourceSummary()}`);
+  if (state.sourceSkipped) {
+    log(`  skipped ${state.sourceSkipped} local/tool file(s) from source`, "muted");
+  }
   log("");
 
   try {
     const zip = new JSZip();
-    const rwResult = rewriteHtml(state.fileContent, vars, state.srcDomain);
-    const rewrittenHtml = rwResult.html;
-    const totalRewrites = Object.values(rwResult.stats).reduce(
-      (a, b) => a + b,
-      0,
-    );
-    log(
-      `  rewrote ${totalRewrites} reference(s) of "${state.srcDomain}" → "${vars.DOMAIN}" in portfolio HTML`,
-      totalRewrites ? "ok" : "warn",
-    );
-    for (const [label, n] of Object.entries(rwResult.stats)) {
-      log(`      ${n.toString().padStart(4)}× ${label}`, "muted");
-    }
-    // Final sanity: if any src-domain refs remain, flag them
-    const leftover = (
-      rewrittenHtml.match(
-        new RegExp(state.srcDomain.replace(/\./g, "\\."), "g"),
-      ) || []
-    ).length;
-    if (leftover) {
-      log(
-        `  ⚠ ${leftover} reference(s) of "${state.srcDomain}" still remain in output (check for unusual formatting)`,
-        "warn",
-      );
-    }
 
     // Root-level files (shared across bundle)
-    zip.file("README.md", substitute(TEMPLATES["README.md"], vars));
-    zip.file("deploy.config", substitute(TEMPLATES["deploy.config"], vars));
-    zip.file("build.sh", substitute(TEMPLATES["build.sh"], vars));
+    addZipFile(zip, "README.md", substitute(TEMPLATES["README.md"], vars));
+    addZipFile(zip, "deploy.config", substitute(TEMPLATES["deploy.config"], vars));
+    addZipFile(zip, "build.sh", substitute(TEMPLATES["build.sh"], vars));
     log("  + README.md, deploy.config, build.sh (bundle root)");
 
     // Per-kit folders
+    const combinedRewriteStats = {};
     for (const kit of state.kits) {
       const files = KIT_FILES[kit];
       log(`  ▸ ${kit}/ ${KIT_LABELS[kit]}`, "ok");
 
-      // index.html (rewritten portfolio) into each kit
-      zip.file(`${kit}/index.html`, rewrittenHtml);
+      const sourceResult = addSourceFilesToKit(zip, kit, vars);
+      mergeStats(combinedRewriteStats, sourceResult.stats);
       log(
-        `      + ${kit}/index.html  (${(rewrittenHtml.length / 1024 / 1024).toFixed(2)} MB)`,
+        `      + ${sourceResult.added} source file(s) copied` +
+          (sourceResult.skipped
+            ? ` · ${sourceResult.skipped} platform-specific file(s) skipped`
+            : ""),
       );
 
       for (const f of files) {
@@ -1834,24 +2052,43 @@ $("#btn-gen").addEventListener("click", async () => {
           zipPath = `${kit}/${f}`;
           tplKey = f;
         }
+        const sourcePath = sourceTemplatePath(tplKey);
+        if (sourcePath && sourceHasPath(sourcePath, kit)) {
+          log(`      = ${zipPath} kept from uploaded source`);
+          continue;
+        }
         const raw = TEMPLATES[tplKey];
         if (raw === undefined) {
           log(`      ✗ template missing: ${tplKey}`, "err");
           continue;
         }
         const rendered = substitute(raw, vars);
-        zip.file(zipPath, rendered);
+        addZipFile(zip, zipPath, rendered);
         log(`      + ${zipPath}`);
       }
 
       // security.txt if email provided
       if (state.email) {
-        zip.file(
+        addZipFile(
+          zip,
           `${kit}/.well-known/security.txt`,
           substitute(TEMPLATES["security.txt"], vars),
         );
         log(`      + ${kit}/.well-known/security.txt`);
       }
+    }
+
+    const totalRewrites = Object.values(combinedRewriteStats).reduce(
+      (a, b) => a + b,
+      0,
+    );
+    log("");
+    log(
+      `  rewrote ${totalRewrites} reference(s) of "${state.srcDomain}" → "${vars.DOMAIN}" across text source files`,
+      totalRewrites ? "ok" : "warn",
+    );
+    for (const [label, n] of Object.entries(combinedRewriteStats)) {
+      log(`      ${n.toString().padStart(4)}× ${label}`, "muted");
     }
 
     // Sanity check
