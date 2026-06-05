@@ -1252,7 +1252,7 @@ organisation:document.getElementById('cf-org').value,
 message: msg,
 to_email: 'mohanvenkatesh@gmail.com'
 };
-emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params)
+emailjs.init(EMAILJS_PUBLIC_KEY);emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params)
 .then(function(){
 cfSending.classList.remove('show');
 cfOk.style.display='block';
