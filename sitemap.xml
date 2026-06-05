@@ -1,15 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- Homepage -->
   <url>
     <loc>https://www.uvwx.me/</loc>
     <lastmod>2026-06-05</lastmod>
-    <changefreq>weekly</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://www.uvwx.me/assets/mohan-venkatesh-ux-designer.jpg</image:loc>
       <image:title>Mohan Venkatesh - Senior UX Designer and AUX Specialist</image:title>
-      <image:caption>Portrait of Mohan Venkatesh, Senior UX Designer and Agentic User Experience specialist.</image:caption>
+      <image:caption>Portrait of Mohan Venkatesh, Senior UX Designer and Agentic User Experience specialist based in Ireland.</image:caption>
     </image:image>
   </url>
+
+  <!-- About page -->
+  <url>
+    <loc>https://www.uvwx.me/about</loc>
+    <lastmod>2026-06-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://www.uvwx.me/assets/mohan-venkatesh-ux-designer.jpg</image:loc>
+      <image:title>About Mohan Venkatesh - Senior UX Designer, UX Manager & AUX Specialist Ireland</image:title>
+      <image:caption>Mohan Venkatesh, 20+ years enterprise UX design across Telecom, Healthcare and Higher Education.</image:caption>
+    </image:image>
+  </url>
+
 </urlset>

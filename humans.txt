@@ -1,0 +1,16 @@
+/* TEAM */
+Name: Mohan Venkatesh
+Role: Senior UX Designer & AUX Specialist
+Location: Athlone, Ireland
+LinkedIn: https://www.linkedin.com/in/mohanvenkatesh/
+
+/* SITE */
+Last update: 2026-06-05
+Language: English
+Doctype: HTML5
+IDE: Claude Code
+
+/* THANKS */
+Fonts: Google Fonts (Plus Jakarta Sans, IBM Plex Mono)
+Icons: Lucide
+Hosting: Vercel
