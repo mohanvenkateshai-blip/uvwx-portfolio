@@ -1000,7 +1000,7 @@ var ioRev=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIn
 reveals.forEach(function(el){ioRev.observe(el);});
 }else{reveals.forEach(function(el){el.classList.add('in');});}
 var CDN=JSON.parse(document.getElementById('cdn-data').textContent);
-var imgMap='{'img-diagnox':'diagnox','img-fq':'finquery','img-banner':'banner'};
+var imgMap={'img-diagnox':'diagnox','img-fq':'finquery','img-banner':'banner'};
 var CDN={"diagnox": "https://cdn.myportfolio.com/86237c23-00bb-4454-82d6-9187364ff473/0618c95d-4a38-433b-8d4f-767bb844a6e0_rw_1920.png?h=9f9644122e42c7d1e05e55adc59be939", "finquery": "https://cdn.myportfolio.com/86237c23-00bb-4454-82d6-9187364ff473/5538b49a-0c4a-482d-9442-352ab1a9af4f_rw_1920.png?h=962c54110c93e96fd927a6ab67db474c", "banner": "https://cdn.myportfolio.com/86237c23-00bb-4454-82d6-9187364ff473/0ab33926-741c-4a92-9ff7-227cbce8f471_rw_1920.png?h=e518c3dec8d95e20ab010ac1c46ff29d"};
 Object.keys(imgMap).forEach(function(id){
 var el=document.getElementById(id);
