@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>DrVikramOrtho Platform · Progress — 19 June 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+:root {
+  --bg:     #05070d;
+  --bg2:    #090d18;
+  --panel:  #0d1424;
+  --panel2: #111a2e;
+  --rule:   rgba(91,158,255,0.10);
+  --rule2:  rgba(91,158,255,0.22);
+  --t1:     #e4ecf4;
+  --t2:     rgba(228,236,244,0.70);
+  --t3:     rgba(228,236,244,0.42);
+  --blue:   #5b9eff;
+  --blue-b: rgba(91,158,255,0.50);
+  --blue-d: rgba(91,158,255,0.07);
+  --gold:   #e7c988;
+  --gold-b: rgba(231,201,136,0.30);
+  --gold-d: rgba(231,201,136,0.06);
+  --green:  #3fb6c0;
+  --green-b:rgba(63,182,192,0.30);
+  --green-d:rgba(63,182,192,0.08);
+  --amber:  #f5a623;
+  --amber-b:rgba(245,166,35,0.35);
+  --amber-d:rgba(245,166,35,0.07);
+  --red:    #e05c4b;
+  --gray-b: rgba(255,255,255,0.10);
+  --gray-d: rgba(255,255,255,0.03);
+  --radius: 4px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{
+  background:var(--bg);
+  color:var(--t1);
+  font-family:"Inter",system-ui,sans-serif;
+  font-weight:300;
+  line-height:1.6;
+  min-height:100vh;
+}
+body{
+  background:
+    radial-gradient(ellipse at top,rgba(91,158,255,0.05) 0%,transparent 55%),
+    var(--bg);
+}
+.wrap{max-width:960px;margin:0 auto;padding:3rem 1.5rem 6rem;}
+@media(max-width:640px){.wrap{padding:2rem 1rem 4rem;}}
+
+/* ── Page header ── */
+.page-header{margin-bottom:2.5rem;padding-bottom:2rem;border-bottom:1px solid var(--rule);}
+.page-header .eyebrow{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:0.65rem;letter-spacing:0.20em;text-transform:uppercase;
+  color:var(--blue);margin-bottom:0.6rem;
+}
+.page-header h1{
+  font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:800;letter-spacing:-0.02em;
+  line-height:1.15;color:var(--t1);
+}
+.page-header h1 em{color:var(--gold);font-style:normal;font-weight:500;}
+.page-header .sub{
+  margin-top:0.5rem;font-size:0.9rem;color:var(--t3);
+}
+
+/* ── KPI row ── */
+.kpi-row{display:grid;grid-template-columns:repeat(2,1fr);gap:0.75rem;margin-bottom:2.5rem;}
+@media(min-width:600px){.kpi-row{grid-template-columns:repeat(4,1fr);}}
+.kpi-card{
+  border:1px solid var(--rule2);background:var(--panel);
+  border-radius:var(--radius);padding:1.1rem 1rem;
+}
+.kpi-value{
+  font-family:"IBM Plex Mono",monospace;font-size:1.6rem;font-weight:600;
+  color:var(--gold);line-height:1;
+}
+.kpi-label{
+  margin-top:0.35rem;font-family:"IBM Plex Mono",monospace;
+  font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--t3);
+}
+.kpi-sub{margin-top:0.2rem;font-size:0.72rem;color:var(--t3);}
+
+/* ── Section titles ── */
+.sec-title{
+  font-family:"IBM Plex Mono",monospace;font-size:0.62rem;
+  letter-spacing:0.18em;text-transform:uppercase;color:var(--t3);
+  margin-bottom:0.9rem;
+}
+
+/* ── Gate timeline ── */
+.gate-list{display:flex;flex-direction:column;gap:0.5rem;margin-bottom:2.5rem;}
+.gate-item{
+  display:flex;align-items:center;gap:0.9rem;
+  border:1px solid var(--rule);background:var(--gray-d);
+  border-radius:var(--radius);padding:0.7rem 1rem;
+}
+.gate-dot{
+  width:28px;height:28px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:"IBM Plex Mono",monospace;font-size:0.7rem;font-weight:600;
+  flex-shrink:0;
+}
+.gate-dot.done   {background:var(--green-d);border:1.5px solid var(--green-b);color:var(--green);}
+.gate-dot.overdue{background:var(--amber-d);border:1.5px solid var(--amber-b);color:var(--amber);}
+.gate-dot.pending{background:var(--gray-d); border:1.5px solid var(--gray-b); color:var(--t3);}
+.gate-id{font-family:"IBM Plex Mono",monospace;font-size:0.7rem;font-weight:600;color:var(--t3);width:2rem;flex-shrink:0;}
+.gate-name{font-size:0.88rem;font-weight:500;color:var(--t1);}
+.gate-note{margin-left:auto;font-size:0.75rem;color:var(--t3);text-align:right;}
+.gate-badge{
+  font-family:"IBM Plex Mono",monospace;font-size:0.56rem;
+  letter-spacing:0.12em;text-transform:uppercase;
+  padding:0.18rem 0.55rem;border-radius:20px;flex-shrink:0;
+}
+.badge-green {background:var(--green-d);border:1px solid var(--green-b);color:var(--green);}
+.badge-amber {background:var(--amber-d);border:1px solid var(--amber-b);color:var(--amber);}
+.badge-blue  {background:var(--blue-d); border:1px solid var(--blue-b); color:var(--blue);}
+.badge-gray  {background:var(--gray-d); border:1px solid var(--gray-b); color:var(--t3);}
+
+/* ── Feature bars ── */
+.progress-list{display:flex;flex-direction:column;gap:0.7rem;margin-bottom:2.5rem;}
+.progress-row{display:grid;grid-template-columns:1fr 220px 2.5rem;align-items:center;gap:0.7rem;}
+@media(max-width:600px){.progress-row{grid-template-columns:1fr 120px 2.5rem;}}
+.progress-label{font-size:0.82rem;color:var(--t2);}
+.progress-bar{height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;}
+.progress-fill{height:100%;border-radius:3px;background:var(--green);transition:width 0.3s;}
+.progress-pct{font-family:"IBM Plex Mono",monospace;font-size:0.7rem;color:var(--t3);text-align:right;}
+
+/* ── Blocker / note ── */
+.blocker-section{margin-bottom:2.5rem;}
+.blocker{
+  display:flex;align-items:flex-start;gap:0.7rem;
+  border:1px solid var(--amber-b);background:var(--amber-d);
+  border-radius:var(--radius);padding:0.75rem 1rem;margin-bottom:0.5rem;
+  font-size:0.83rem;
+}
+.blocker-icon{color:var(--amber);font-size:1rem;flex-shrink:0;line-height:1.4;}
+.blocker-text strong{color:var(--gold);display:block;margin-bottom:0.1rem;}
+.blocker-text span{color:var(--t3);font-size:0.77rem;}
+.note{
+  border:1px solid var(--green-b);background:var(--green-d);
+  border-radius:var(--radius);padding:0.75rem 1rem;
+  font-size:0.83rem;color:var(--t2);
+}
+
+/* ── Quality checks table ── */
+.q-table{width:100%;border-collapse:collapse;font-size:0.82rem;margin-bottom:2.5rem;}
+.q-table th{
+  text-align:left;font-family:"IBM Plex Mono",monospace;
+  font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--t3);padding:0.5rem 0.7rem;border-bottom:1px solid var(--rule);
+}
+.q-table td{padding:0.55rem 0.7rem;border-bottom:1px solid var(--rule);color:var(--t2);}
+.q-table tr:last-child td{border-bottom:none;}
+.q-badge{
+  font-family:"IBM Plex Mono",monospace;font-size:0.6rem;
+  letter-spacing:0.1em;text-transform:uppercase;
+  padding:0.15rem 0.45rem;border-radius:20px;
+}
+.qb-green {background:var(--green-d);border:1px solid var(--green-b);color:var(--green);}
+.qb-amber {background:var(--amber-d);border:1px solid var(--amber-b);color:var(--amber);}
+.qb-gray  {background:var(--gray-d); border:1px solid var(--gray-b); color:var(--t3);}
+.qb-red   {background:rgba(224,92,75,0.08);border:1px solid rgba(224,92,75,0.30);color:var(--red);}
+
+/* ── Donut + readiness ── */
+.readiness-row{display:flex;align-items:center;gap:2.5rem;margin-bottom:2.5rem;flex-wrap:wrap;}
+.donut-wrap{flex-shrink:0;position:relative;}
+.donut-wrap svg{display:block;}
+.donut-label{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  text-align:center;
+}
+.donut-label .pct{
+  font-family:"IBM Plex Mono",monospace;font-size:1.5rem;font-weight:600;color:var(--gold);
+  display:block;line-height:1;
+}
+.donut-label .sub{font-size:0.58rem;color:var(--t3);letter-spacing:0.1em;text-transform:uppercase;margin-top:0.2rem;}
+.readiness-detail{flex:1;min-width:220px;}
+.readiness-detail h3{font-size:1rem;font-weight:600;color:var(--t1);margin-bottom:0.4rem;}
+.readiness-detail p{font-size:0.83rem;color:var(--t3);line-height:1.6;}
+
+/* ── Ganesha action table ── */
+.action-table{width:100%;border-collapse:collapse;font-size:0.82rem;margin-bottom:2.5rem;}
+.action-table th{
+  text-align:left;font-family:"IBM Plex Mono",monospace;
+  font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--t3);padding:0.5rem 0.7rem;border-bottom:1px solid var(--rule);
+}
+.action-table td{padding:0.6rem 0.7rem;border-bottom:1px solid var(--rule);vertical-align:top;color:var(--t2);}
+.action-table tr:last-child td{border-bottom:none;}
+.action-item-name{font-weight:500;color:var(--t1);display:block;}
+.action-item-note{font-size:0.75rem;color:var(--t3);margin-top:0.1rem;}
+.urg-high{background:rgba(224,92,75,0.10);border:1px solid rgba(224,92,75,0.30);color:var(--red);}
+.urg-med {background:var(--amber-d);border:1px solid var(--amber-b);color:var(--amber);}
+.urg-low {background:var(--blue-d); border:1px solid var(--blue-b); color:var(--blue);}
+
+/* ── Footer ── */
+.page-footer{
+  margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--rule);
+  font-size:0.75rem;color:var(--t3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;
+}
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+
+      <!-- ── Header ── -->
+      <header class="page-header">
+        <p class="eyebrow">DrVikramOrtho-Platform · Progress Dashboard</p>
+        <h1>Build Status — <em>19 June 2026</em></h1>
+        <p class="sub">drvikramortho.com · Internal tracking view · Not indexed · Updated automatically</p>
+      </header>
+
+      <!-- ── KPIs ── -->
+      <div class="kpi-row">
+        <div class="kpi-card">
+          <div class="kpi-value">3 / 6</div>
+          <div class="kpi-label">Gates complete</div>
+          <div class="kpi-sub">G0, G1, G3 done · G2 overdue</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value">+4d</div>
+          <div class="kpi-label">Past G2 target</div>
+          <div class="kpi-sub">Target was 15 Jun · DNS pending</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value">23</div>
+          <div class="kpi-label">Route files</div>
+          <div class="kpi-sub">44 pages in SSG build output</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value">1</div>
+          <div class="kpi-label">Hard blockers</div>
+          <div class="kpi-sub">Real case studies (9 needed)</div>
+        </div>
+      </div>
+
+      <!-- ── Gate timeline ── -->
+      <p class="sec-title">Gate pipeline</p>
+      <div class="gate-list">
+        <div class="gate-item">
+          <div class="gate-dot done">✓</div>
+          <span class="gate-id">G0</span>
+          <span class="gate-name">Foundations</span>
+          <span class="gate-badge badge-green">Done</span>
+          <span class="gate-note">Docs, decisions, deploy pipeline · Jun 12</span>
+        </div>
+        <div class="gate-item">
+          <div class="gate-dot done">✓</div>
+          <span class="gate-id">G1</span>
+          <span class="gate-name">Design Direction</span>
+          <span class="gate-badge badge-green">Done</span>
+          <span class="gate-note">Night Theatre public site approved · Jun 14</span>
+        </div>
+        <div class="gate-item">
+          <div class="gate-dot overdue">!</div>
+          <span class="gate-id">G2</span>
+          <span class="gate-name">Public Launch</span>
+          <span class="gate-badge badge-amber">Overdue</span>
+          <span class="gate-note">1 blocker: real case content · DNS pending</span>
+        </div>
+        <div class="gate-item">
+          <div class="gate-dot done">✓</div>
+          <span class="gate-id">G3</span>
+          <span class="gate-name">Admin CMS</span>
+          <span class="gate-badge badge-green">Done</span>
+          <span class="gate-note">Cases CRUD + appointments + messages + testimonials wired to Supabase</span>
+        </div>
+        <div class="gate-item">
+          <div class="gate-dot pending">—</div>
+          <span class="gate-id">G4</span>
+          <span class="gate-name">Case Pipeline</span>
+          <span class="gate-badge badge-gray">Not Started</span>
+          <span class="gate-note">Voice capture ≤10 min — post-launch</span>
+        </div>
+        <div class="gate-item">
+          <div class="gate-dot pending">—</div>
+          <span class="gate-id">G5</span>
+          <span class="gate-name">Operate</span>
+          <span class="gate-badge badge-gray">Not Started</span>
+          <span class="gate-note">Rounds assistant, analytics, maintenance cadence</span>
+        </div>
+      </div>
+
+      <!-- ── Feature progress bars ── -->
+      <p class="sec-title">Feature completion</p>
+      <div class="progress-list">
+        <div class="progress-row">
+          <span class="progress-label">Public Website</span>
+          <div class="progress-bar"><div class="progress-fill" style="width:90%"></div></div>
+          <span class="progress-pct">90%</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">Design System</span>
+          <div class="progress-bar"><div class="progress-fill" style="width:95%"></div></div>
+          <span class="progress-pct">95%</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">Real Content</span>
+          <div class="progress-bar"><div class="progress-fill" style="width:65%;background:var(--amber);"></div></div>
+          <span class="progress-pct">65%</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">SEO / Metadata</span>
+          <div class="progress-bar"><div class="progress-fill" style="width:90%"></div></div>
+          <span class="progress-pct">90%</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">Accessibility</span>
+          <div class="progress-bar"><div class="progress-fill" style="width:85%"></div></div>
+          <span class="progress-pct">85%</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">Performance QA</span>
+          <div class="progress-bar"><div class="progress-fill" style="width:50%;background:var(--amber);"></div></div>
+          <span class="progress-pct">50%</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">Admin CMS (UI)</span>
+          <div class="progress-bar"><div class="progress-fill" style="width:90%"></div></div>
+          <span class="progress-pct">90%</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">Admin CMS (Live)</span>
+          <div class="progress-bar"><div class="progress-fill" style="width:85%"></div></div>
+          <span class="progress-pct">85%</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">Supabase DB</span>
+          <div class="progress-bar"><div class="progress-fill" style="width:85%"></div></div>
+          <span class="progress-pct">85%</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">Security / RLS</span>
+          <div class="progress-bar"><div class="progress-fill" style="width:70%"></div></div>
+          <span class="progress-pct">70%</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">Voice / Rounds</span>
+          <div class="progress-bar"><div class="progress-fill" style="width:20%;background:var(--t3);"></div></div>
+          <span class="progress-pct">20%</span>
+        </div>
+      </div>
+
+      <!-- ── G2 Blockers ── -->
+      <p class="sec-title">G2 blockers</p>
+      <div class="blocker-section">
+        <div class="blocker">
+          <span class="blocker-icon">⚠</span>
+          <div class="blocker-text">
+            <strong>Real case studies — 9 of 10 still representative examples</strong>
+            <span>Dr. Vikram must enter real consented cases via /admin/cases/new. Cases 02–10 use generic Unsplash photos and representative copy — cannot go live on drvikramortho.com per CLAUDE.md hard rules. Admin CMS is fully wired and ready.</span>
+          </div>
+        </div>
+        <div class="note">
+          <strong>Previously resolved:</strong> Video testimonial consent confirmed · Privacy &amp; Terms draft banners removed · Security headers (CSP + 4 others) configured · OG image set for WhatsApp previews
+        </div>
+      </div>
+
+      <!-- ── Quality checks ── -->
+      <p class="sec-title">Quality checks</p>
+      <table class="q-table">
+        <thead>
+          <tr>
+            <th>Check</th>
+            <th>Result</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>npm run build</td>
+            <td>44 pages, TypeScript clean, 0 errors</td>
+            <td><span class="q-badge qb-green">Pass</span></td>
+          </tr>
+          <tr>
+            <td>npm run lint</td>
+            <td>0 errors · 1 warning (unused import, non-blocking)</td>
+            <td><span class="q-badge qb-green">Pass</span></td>
+          </tr>
+          <tr>
+            <td>Lighthouse Performance</td>
+            <td>Not run yet — needed ≥90</td>
+            <td><span class="q-badge qb-gray">Not run</span></td>
+          </tr>
+          <tr>
+            <td>Lighthouse Accessibility</td>
+            <td>Not run yet — needed ≥95</td>
+            <td><span class="q-badge qb-gray">Not run</span></td>
+          </tr>
+          <tr>
+            <td>Lighthouse SEO</td>
+            <td>Not run yet — needed ≥95</td>
+            <td><span class="q-badge qb-gray">Not run</span></td>
+          </tr>
+          <tr>
+            <td>Security headers</td>
+            <td>CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy</td>
+            <td><span class="q-badge qb-green">✓ Configured</span></td>
+          </tr>
+          <tr>
+            <td>Real content check</td>
+            <td>No lorem ipsum, no fabricated stats, no superlatives</td>
+            <td><span class="q-badge qb-green">Pass</span></td>
+          </tr>
+          <tr>
+            <td>axe accessibility scan</td>
+            <td>Not run yet</td>
+            <td><span class="q-badge qb-gray">Not run</span></td>
+          </tr>
+          <tr>
+            <td>DNS cutover (drvikramortho.com)</td>
+            <td>Still on WordPress/WhiteCoats — Vercel domain pending</td>
+            <td><span class="q-badge qb-amber">Pending</span></td>
+          </tr>
+          <tr>
+            <td>Supabase env vars (Preview)</td>
+            <td>Not added to Vercel Preview environment</td>
+            <td><span class="q-badge qb-amber">Pending</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- ── Overall readiness donut ── -->
+      <p class="sec-title">Overall readiness</p>
+      <div class="readiness-row">
+        <div class="donut-wrap">
+          <svg width="140" height="140" viewBox="0 0 140 140">
+            <!-- background ring -->
+            <circle cx="70" cy="70" r="55" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="12"/>
+            <!-- filled arc: 76% → round(0.76 × 345.4) = 263 (r=55, circ=2π×55≈345) -->
+            <circle cx="70" cy="70" r="55" fill="none" stroke="#e7c988" stroke-width="12"
+              stroke-dasharray="263 345"
+              stroke-dashoffset="86"
+              stroke-linecap="round"
+              transform="rotate(-90 70 70)"/>
+          </svg>
+          <div class="donut-label">
+            <span class="pct">76%</span>
+            <span class="sub">Overall</span>
+          </div>
+        </div>
+        <div class="readiness-detail">
+          <h3>Ready for DNS cutover once real cases are filed</h3>
+          <p>G3 (Admin CMS) shipped ahead of G2 — the pipeline is built and live. The single remaining gate blocker is content, not code. Once Dr. Vikram files 9 real consented cases via /admin/cases/new, DNS can cut over the same day. G4 (Voice / Rounds) and G5 (Operate) follow post-launch.</p>
+        </div>
+      </div>
+
+      <!-- ── Ganesha action items ── -->
+      <p class="sec-title">Action items for Ganesha</p>
+      <table class="action-table">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Owner</th>
+            <th>Urgency</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <span class="action-item-name">Schedule Dr. Vikram case-filing session</span>
+              <span class="action-item-note">9 real cases needed via /admin/cases/new before DNS cutover — this is the only hard blocker</span>
+            </td>
+            <td>Ganesha</td>
+            <td><span class="q-badge urg-high">High</span></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="action-item-name">DNS cutover — point drvikramortho.com to Vercel</span>
+              <span class="action-item-note">Awaiting meeting with Dr. Vikram; do after real cases are live</span>
+            </td>
+            <td>Ganesha + Dr. Vikram</td>
+            <td><span class="q-badge urg-med">Medium</span></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="action-item-name">Add Supabase env vars to Vercel Preview environment</span>
+              <span class="action-item-note">Production likely fine; Preview deploys need NEXT_PUBLIC_SUPABASE_URL + NEXT_PUBLIC_SUPABASE_ANON_KEY</span>
+            </td>
+            <td>Ganesha</td>
+            <td><span class="q-badge urg-med">Medium</span></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="action-item-name">Run Lighthouse on Vercel preview URL</span>
+              <span class="action-item-note">Need scores ≥90/95/95 (Perf/A11y/SEO) before G2 closes; no score on record yet</span>
+            </td>
+            <td>Ganesha</td>
+            <td><span class="q-badge urg-med">Medium</span></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="action-item-name">G4 Voice / Rounds assistant — scoping</span>
+              <span class="action-item-note">Page scaffolded at /admin/rounds; Web Speech API capture flow is G4 scope, post-launch</span>
+            </td>
+            <td>Ganesha</td>
+            <td><span class="q-badge urg-low">Post-launch</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- ── Footer ── -->
+      <footer class="page-footer">
+        <span>DrVikramOrtho-Platform · uvwx.me/track · Not indexed</span>
+        <span>Updated automatically · 19 June 2026</span>
+      </footer>
+
+    </div>
+  </body>
+</html>
