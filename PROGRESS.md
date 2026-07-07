@@ -8,7 +8,7 @@
 
 ## Feature: v2 Redesign — "Ruthless Curation" homepage rebuild
 
-**Status:** Phase 7 — Deployment Prep · ~95% complete
+**Status:** ✅ Shipped — v2.0 live at https://www.uvwx.me/ (2026-07-07)
 **Started:** 2026-07-07 · **Owner:** Moni (HITL) + Claude Code (execution)
 
 ### Origin
@@ -25,7 +25,7 @@
 | 4. Verification | ✅ | Playwright render checks: desktop hero/full-page, mobile 390px (nav collision found → fixed), dialog open test. Zero page errors. All local links verified. JSON/XML validated. |
 | 5. Review & alignment | ✅ | Reviewed against `Specifications/UX_UI_Web_Standards_2026.md`, `SEO_Master_Specifications_2026.md`, `Web_Design_UI_UX_Guidelines.md`. Fixes: h3-in-button semantics, footer internal links to 5 SEO pages, security headers (nosniff / referrer / permissions policy). |
 | 6. Documentation | ✅ | This file; colophon page documents the build publicly. |
-| 7. Deploy & close | ⏳ | Commit as v2.0, push to main (auto-deploys via Vercel), verify live at https://www.uvwx.me/. |
+| 7. Deploy & close | ✅ | Commit `a358432` tagged `v2.0`, pushed 2026-07-07 (HITL-approved). Vercel production deploy Ready in 3s. Live verification: new title served, colophon/CV/case-studies/`/cv` redirect all 200, security headers present, hero screenshot confirmed. |
 
 ### Key decisions
 - **Real metrics over placeholders** — pulled from Moni's own CV: 28 UX issues closed pre-GA, 72% heuristic baseline (200 guidelines · 9 categories · 5 experts), 35% baseline task-failure quantified, 100% completion across 15 validation tasks with Telstra/Optus, 12 GA improvements.
@@ -37,7 +37,7 @@
 - None.
 
 ### Next steps
-- [ ] Commit + tag `v2.0` + push + verify production.
+- [x] Commit + tag `v2.0` + push + verify production. *(done 2026-07-07)*
 - [ ] Post-launch: PageSpeed/Lighthouse audit on live URL; IndexNow ping for updated sitemap.
 - [ ] Future (backlog): restyle the 5 SEO pages + case-study pages to match v2 tokens exactly (`#091524` → `#070F1A`); add a real product capture to the flagship section if NDA allows; refresh `about.html` copy to match new positioning.
 
