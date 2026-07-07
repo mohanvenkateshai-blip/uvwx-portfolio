@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#070F1A">
+<title>Colophon — How uvwx.me Was Built | Mohan Venkatesh</title>
+<meta name="description" content="How uvwx.me was designed and built: the Navy Precision design tokens, static HTML/CSS/JS stack, accessibility standards, and AI-assisted build process.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.uvwx.me/colophon.html">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070F1A; --bg2:#0A1626;
+  --ink:#EDF3FF; --ink2:rgba(237,243,255,.66); --ink3:rgba(237,243,255,.38);
+  --blue:#5B9EFF; --gold:#C9913A;
+  --hair:rgba(237,243,255,.08); --hair2:rgba(237,243,255,.14);
+  --sans:'Plus Jakarta Sans',-apple-system,sans-serif;
+  --serif:'Instrument Serif',Georgia,serif;
+  --mono:'IBM Plex Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+a:focus-visible{outline:2px solid var(--blue);outline-offset:4px;border-radius:2px}
+.wrap{max-width:760px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+.mono{font-family:var(--mono);font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink3);font-weight:400}
+em.s{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--ink)}
+header{padding:clamp(72px,12vh,120px) 0 clamp(40px,6vh,64px);border-bottom:1px solid var(--hair)}
+header .back{font-family:var(--mono);font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);display:inline-block;margin-bottom:36px}
+header .back:hover{color:var(--ink)}
+h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin:14px 0 18px}
+header p{color:var(--ink2);max-width:560px}
+section{padding:clamp(40px,7vh,64px) 0;border-bottom:1px solid var(--hair)}
+h2{font-size:1.3rem;font-weight:800;letter-spacing:-.02em;margin-bottom:18px}
+h2 .num{font-family:var(--mono);font-size:.72rem;font-weight:400;color:var(--gold);letter-spacing:.2em;margin-right:12px}
+section p{color:var(--ink2);margin-bottom:14px;font-size:.96rem}
+section p b{color:var(--ink);font-weight:600}
+.tokens{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-top:22px}
+.tok{border:1px solid var(--hair2);border-radius:2px;padding:16px}
+.tok i{display:block;width:100%;height:34px;border-radius:2px;margin-bottom:12px;font-style:normal}
+.tok b{display:block;font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);font-weight:400}
+.tok span{font-family:var(--mono);font-size:.62rem;color:var(--ink3)}
+ul.plain{list-style:none;margin-top:16px}
+ul.plain li{padding:13px 0;border-top:1px solid var(--hair);color:var(--ink2);font-size:.94rem;display:grid;grid-template-columns:150px 1fr;gap:16px}
+ul.plain li:last-child{border-bottom:1px solid var(--hair)}
+ul.plain li b{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-weight:400;padding-top:4px}
+@media(max-width:560px){ul.plain li{grid-template-columns:1fr;gap:4px}}
+footer{padding:40px 0 56px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer p,footer a{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3)}
+footer a:hover{color:var(--ink2)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="back" href="index.html">← Back to portfolio</a>
+    <span class="mono" style="display:block">Colophon</span>
+    <h1>How this site was <em class="s">built.</em></h1>
+    <p>For the curious: the design system, stack and process behind uvwx.me. Kept off the homepage deliberately — the portfolio is about the work, not the website.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2><span class="num">01</span>Design language — “Navy Precision”</h2>
+    <p>A restrained dark-navy system with a single warm accent. Type pairing: <b>Plus Jakarta Sans</b> (800 display / 300 body), <b>Instrument Serif</b> for editorial italics, and <b>IBM Plex Mono</b> for uppercase labels. Whitespace is the primary design material — one idea per viewport, sections separated by hairline rules rather than boxes.</p>
+    <div class="tokens">
+      <div class="tok"><i style="background:#070F1A;border:1px solid rgba(237,243,255,.14)"></i><b>Background</b><span>#070F1A</span></div>
+      <div class="tok"><i style="background:#5B9EFF"></i><b>Primary blue</b><span>#5B9EFF</span></div>
+      <div class="tok"><i style="background:#C9913A"></i><b>Gold accent</b><span>#C9913A</span></div>
+      <div class="tok"><i style="background:#EDF3FF"></i><b>Ink</b><span>#EDF3FF · .66/.38 alpha tiers</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="num">02</span>Stack &amp; principles</h2>
+    <ul class="plain">
+      <li><b>Stack</b><span>Hand-written semantic HTML, vanilla CSS and JavaScript. No framework, no build step. Deployed on Vercel.</span></li>
+      <li><b>Accessibility</b><span>WCAG 2.2 AA — ARIA landmarks, skip link, visible focus states, 4.5:1 contrast, reduced-motion support, 44px touch targets.</span></li>
+      <li><b>Performance</b><span>Optimised local images with explicit dimensions, system-cached Google Fonts, no base64 embedding, minimal JavaScript.</span></li>
+      <li><b>Openness</b><span>No right-click blocking, no devtools traps, nothing copy-protected. View source is a feature.</span></li>
+      <li><b>SEO</b><span>JSON-LD (Person, ProfilePage, WebSite, CreativeWork), Open Graph, sitemap with image extensions, IndexNow, canonical and hreflang.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2><span class="num">03</span>Process</h2>
+    <p>The site is designed and built by me, with AI-assisted coding (Claude) as a pair programmer — the same intent-driven, human-in-command workflow I design for professionally. Every generation was reviewed, refined or rejected before landing; the judgement calls are mine.</p>
+    <p>Version 1 (2026) was a maximalist single-page archive — 13 build phases, an embedded design-system tour, five NDA slide viewers. Version 2, this site, is the edit: a deliberate exercise in ruthless curation after candid feedback that the archive buried the argument. The redesign brief, personas and acceptance criteria were written first; the code followed.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>© 2026 Mohan Venkatesh</p>
+    <a href="index.html">uvwx.me</a>
+    <a href="image-rights.html">Image rights</a>
+  </div>
+</footer>
+
+</body>
+</html>

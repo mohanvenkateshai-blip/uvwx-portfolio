@@ -4,7 +4,7 @@
 
   <url>
     <loc>https://www.uvwx.me/</loc>
-    <lastmod>2026-06-07</lastmod>
+    <lastmod>2026-07-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -42,10 +42,6 @@
     </image:image>
   </url>
 
-  
-
-  <url>
-    <loc>https://www.uvwx.me/
   <url>
     <loc>https://www.uvwx.me/agentic-ux.html</loc>
     <lastmod>2026-06-07</lastmod>
@@ -55,7 +51,9 @@
       <image:loc>https://www.uvwx.me/assets/mohan-venkatesh-ux-designer.jpg</image:loc>
     </image:image>
   </url>
-senior-ux-designer-ireland.html</loc>
+
+  <url>
+    <loc>https://www.uvwx.me/senior-ux-designer-ireland.html</loc>
     <lastmod>2026-06-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
@@ -90,6 +88,13 @@ senior-ux-designer-ireland.html</loc>
     <lastmod>2026-06-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://www.uvwx.me/colophon.html</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
   </url>
 
   <url>
