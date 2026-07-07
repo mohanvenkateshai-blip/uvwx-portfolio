@@ -11,7 +11,6 @@
     }
   ],
   "rewrites": [
-    { "source": "/about", "destination": "/about.html" },
     {
       "source": "/jobs",
       "destination": "https://ux-job-radar.vercel.app/jobs"
@@ -22,6 +21,31 @@
     }
   ],
   "redirects": [
+    { "source": "/index.html", "destination": "/", "permanent": true },
+    { "source": "/about", "destination": "/about.html", "permanent": true },
+    { "source": "/about/", "destination": "/about.html", "permanent": true },
+    { "source": "/ux-research", "destination": "/ux-research.html", "permanent": true },
+    { "source": "/ux-research/", "destination": "/ux-research.html", "permanent": true },
+
+    { "source": "/ai-ux-designer", "destination": "/ai-ux-designer.html", "permanent": true },
+    { "source": "/ai-ux-designer/", "destination": "/ai-ux-designer.html", "permanent": true },
+    { "source": "/senior-ux-designer-ireland", "destination": "/senior-ux-designer-ireland.html", "permanent": true },
+    { "source": "/senior-ux-designer-ireland/", "destination": "/senior-ux-designer-ireland.html", "permanent": true },
+    { "source": "/agentic-ux", "destination": "/agentic-ux.html", "permanent": true },
+    { "source": "/agentic-ux/", "destination": "/agentic-ux.html", "permanent": true },
+    { "source": "/image-rights", "destination": "/image-rights.html", "permanent": true },
+    { "source": "/image-rights/", "destination": "/image-rights.html", "permanent": true },
+    { "source": "/case-studies", "destination": "/case-studies/index.html", "permanent": true },
+    { "source": "/case-studies/", "destination": "/case-studies/index.html", "permanent": true },
+    { "source": "/case-studies/index", "destination": "/case-studies/index.html", "permanent": true },
+    { "source": "/case-studies/diagnox", "destination": "/case-studies/diagnox.html", "permanent": true },
+    { "source": "/case-studies/diagnox/", "destination": "/case-studies/diagnox.html", "permanent": true },
+    { "source": "/case-studies/banner-time-entry", "destination": "/case-studies/banner-time-entry.html", "permanent": true },
+    { "source": "/case-studies/banner-time-entry/", "destination": "/case-studies/banner-time-entry.html", "permanent": true },
+    { "source": "/case-studies/my-finance-query", "destination": "/case-studies/my-finance-query.html", "permanent": true },
+    { "source": "/case-studies/my-finance-query/", "destination": "/case-studies/my-finance-query.html", "permanent": true },
+    { "source": "/doctor", "destination": "https://drvikramortho-platform.vercel.app", "permanent": false },
+    { "source": "/doctor/", "destination": "https://drvikramortho-platform.vercel.app", "permanent": false },
     {
       "source": "/(.*)",
       "has": [
