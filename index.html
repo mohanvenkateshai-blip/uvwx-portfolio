@@ -8,7 +8,7 @@
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#070F1A">
 <title>Mohan Venkatesh — Senior UX Leader · Agentic &amp; AI Experiences</title>
-<meta name="description" content="20+ years designing enterprise software for Ericsson, HP and Ellucian. Senior UX Leader specialising in Agentic &amp; AI experiences. Available — Ireland, India, Remote.">
+<meta name="description" content="20+ years designing enterprise software for Ericsson, HP and Ellucian. Senior UX Leader specialising in Agentic &amp; AI experiences, AI-Directed Product Engineering and GraphRAG — seven AI products shipped to production. Available — Ireland, India, Remote.">
 <meta name="author" content="Mohan Venkatesh">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <meta name="geo.region" content="IE">
@@ -49,7 +49,7 @@
       "email": "mailto:mohanvenkatesh@gmail.com",
       "sameAs": ["https://www.linkedin.com/in/mohanvenkatesh/"],
       "address": {"@type": "PostalAddress", "addressLocality": "Athlone", "addressCountry": "IE"},
-      "knowsAbout": ["Agentic UX", "AI UX Design", "Enterprise UX", "Design Systems", "UX Research", "Usability Testing", "Accessibility", "Design Thinking"]
+      "knowsAbout": ["Agentic UX", "AI UX Design", "AI-Directed Product Engineering", "GraphRAG", "Multi-Agent Orchestration", "Human-in-the-Loop AI", "Prompt Engineering", "Context Engineering", "Model Context Protocol (MCP)", "Enterprise UX", "Design Systems", "UX Research", "Usability Testing", "Accessibility", "Design Thinking"]
     },
     {
       "@type": "WebSite",
@@ -252,7 +252,9 @@ h2{font-size:clamp(1.9rem,4vw,3rem);font-weight:800;letter-spacing:-.03em;line-h
 .wrow .wmeta b{display:block;font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3);font-weight:400;margin-bottom:5px}
 .wrow .go{font-size:1.3rem;color:var(--ink3);transition:transform .3s,color .3s}
 .wrow:hover .go{transform:translate(4px,-4px);color:var(--gold)}
-@media(max-width:760px){.wrow{grid-template-columns:36px 92px 1fr auto}.wrow .wmeta{display:none}.wrow .idx{font-size:1.1rem}.wthumb{width:92px;height:62px}}
+@media(max-width:760px){.wrow{grid-template-columns:36px 92px 1fr auto}.wrow.nothumb{grid-template-columns:36px 1fr auto}.wrow .wmeta{display:none}.wrow .idx{font-size:1.1rem}.wthumb{width:92px;height:62px}}
+.wrow.nothumb{grid-template-columns:64px 1.1fr .9fr auto;cursor:default}
+a.wrow.nothumb{cursor:pointer}
 .wthumb{width:148px;height:96px;overflow:hidden;border-radius:4px;border:1px solid var(--hair2);flex:none}
 .wthumb img{width:100%;height:100%;object-fit:cover;object-position:top;filter:saturate(.95);transition:transform .45s cubic-bezier(.2,.6,.2,1),filter .45s}
 .wrow:hover .wthumb img{transform:scale(1.06);filter:saturate(1.15)}
@@ -379,7 +381,7 @@ dialog .close:hover{color:var(--ink);border-color:var(--ink2)}
           <span class="ln">designed for the</span>
           <span class="ln"><em class="s">AI-native</em> era.</span>
         </h1>
-        <p class="hero-sub rv d2">Twenty years leading UX for Ericsson, HP and Ellucian — now designing <b>agentic experiences</b>: software where people direct AI with confidence and control.</p>
+        <p class="hero-sub rv d2">Twenty years leading UX for Ericsson, HP and Ellucian — now designing — and <b>shipping</b> — agentic software: systems where people direct AI with confidence and control.</p>
         <div class="cta-row rv d3">
           <a class="btn gold" href="#flagship">View the work <span class="ar">→</span></a>
           <a class="btn ghost" href="assets/mohan-venkatesh-cv.pdf" download="Mohan_Venkatesh_CV.pdf">Download CV</a>
@@ -474,11 +476,66 @@ dialog .close:hover{color:var(--ink);border-color:var(--ink2)}
   </div>
 </section>
 
-<!-- ============ 02 SELECTED WORK ============ -->
+<!-- ============ 02 INDEPENDENT BUILDS ============ -->
+<section class="sec" id="builds">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-no">02 — Independent Builds · 2025–26</span>
+      <div>
+        <h2>Seven AI products, shipped solo — <em class="s">directed</em>, not typed.</h2>
+        <p class="sec-intro">After twenty years designing enterprise software, I spent 2025–26 proving a thesis: a UX leader who understands the full SDLC can direct agentic AI to build production software — if, and only if, the human stays in command. Seven products are live. Every claim below is verifiable in a deployed system.</p>
+      </div>
+    </div>
+
+    <ol class="decisions rv">
+      <li><div><b>Adversarial review gates — MAFIP</b><p>Every feature slice passes an independent AI review scored /100; below 95, or any critical finding, it does not ship. A flagship feature gated at 91 was remediated to 97 before release. Two sub-standard slices were held back entirely.</p></div></li>
+      <li><div><b>Evaluation infrastructure AI code must pass</b><p>A 340-test backend suite, golden-reference regression charts, Playwright E2E with axe accessibility checks and 21 visual baselines, CI quality gates. “It compiles” is not a bar.</p></div></li>
+      <li><div><b>Design systems under AI generation</b><p>Locked type, color, and elevation tokens with a written taste record — so agent-generated UI cannot drift into generic AI slop.</p></div></li>
+      <li><div><b>Human-in-the-loop, across the whole stack</b><p>Conversational AI for thinking, agent skills for automation, MCP for integration, AI IDEs for building — prompt, context and agentic-loop engineering to direct each surface, and verification before anything ships.</p></div></li>
+    </ol>
+
+    <div class="worklist rv d1">
+      <a class="wrow nothumb" href="https://portal-omega-two-10.vercel.app" rel="noopener" target="_blank">
+        <span class="idx">01</span>
+        <span class="h3s">Prediction Platform <em class="s">(flagship)</em></span>
+        <span class="wmeta"><b>portal-omega-two-10.vercel.app</b>Next.js 16 + FastAPI, GraphRAG over a 26,700-node knowledge graph distilled from a 32-text classical corpus — every prediction carries verifiable source citations. Sealed forecasts and an append-only accuracy ledger: evidence before trust.</span>
+        <span class="go">↗</span>
+      </a>
+      <a class="wrow nothumb" href="https://doctor.uvwx.me" rel="noopener" target="_blank">
+        <span class="idx">02</span>
+        <span class="h3s">DrVikramOrtho</span>
+        <span class="wmeta"><b>doctor.uvwx.me</b>Client delivery: healthcare platform with an AI-assisted content pipeline, Supabase, production ops on Vercel.</span>
+        <span class="go">↗</span>
+      </a>
+      <a class="wrow nothumb" href="https://muhurtha.uvwx.me" rel="noopener" target="_blank">
+        <span class="idx">03</span>
+        <span class="h3s">Panchanga Muhūrta</span>
+        <span class="wmeta"><b>muhurtha.uvwx.me</b>A domain-rule engine as product: five-limb astronomical calculations, veto-first rule system — built agent-assisted, then deliberately frozen as a stable release.</span>
+        <span class="go">↗</span>
+      </a>
+      <a class="wrow nothumb" href="https://jobsportal.uvwx.me" rel="noopener" target="_blank">
+        <span class="idx">04</span>
+        <span class="h3s">UX Job Radar</span>
+        <span class="wmeta"><b>jobsportal.uvwx.me</b>Career tooling: JD analysis → resume gap audit → ATS validation, systematized into reusable prompt pipelines.</span>
+        <span class="go">↗</span>
+      </a>
+    </div>
+
+    <div class="outcome rv">
+      <span class="oi">→</span>
+      <div>
+        <b>The takeaway</b>
+        <p>The takeaway isn't that AI writes code. It's that <em class="s">judgment scales</em> — when you build the gates that force AI to meet a senior practitioner's bar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 SELECTED WORK ============ -->
 <section class="sec" id="work">
   <div class="wrap">
     <div class="sec-head rv">
-      <span class="sec-no">02 — Selected Work</span>
+      <span class="sec-no">03 — Selected Work</span>
       <h2>Health, time management and money — three hard problems, one discipline.</h2>
     </div>
     <div class="worklist rv">
@@ -508,16 +565,17 @@ dialog .close:hover{color:var(--ink);border-color:var(--ink2)}
   </div>
 </section>
 
-<!-- ============ 03 EXPERIENCE ============ -->
+<!-- ============ 04 EXPERIENCE ============ -->
 <section class="sec" id="experience">
   <div class="wrap">
     <div class="sec-head rv">
-      <span class="sec-no">03 — Experience</span>
+      <span class="sec-no">04 — Experience</span>
       <h2>Twenty years, one throughline: <em class="s">enterprise UX.</em></h2>
     </div>
     <div class="exp-grid">
       <div class="rv">
-        <div class="xrow"><time>2019 — 25</time><div><b>Senior UX Designer &amp; AUX Lead</b><span>Ericsson · Athlone, Ireland</span></div></div>
+        <div class="xrow"><time>2025 — now</time><div><b>Independent AI Product Builder · UX Consultant</b><span>Seven production AI products · uvwx.me</span></div></div>
+        <div class="xrow"><time>2019 — 25</time><div><b>Senior UX Designer · Agentic UX Lead</b><span>Ericsson · Athlone, Ireland</span></div></div>
         <div class="xrow"><time>2016 — 19</time><div><b>UX Consultant</b><span>Diagnox · Bangalore</span></div></div>
         <div class="xrow"><time>2015 — 16</time><div><b>UX Manager — team of 21</b><span>Ellucian · Bangalore</span></div></div>
         <div class="xrow"><time>2009 — 14</time><div><b>Lead UX Analyst</b><span>Ellucian · Bangalore</span></div></div>
@@ -527,18 +585,18 @@ dialog .close:hover{color:var(--ink);border-color:var(--ink2)}
       <div class="bignums rv d1">
         <div class="bignum"><b>20<i>+</i></b><span>years designing enterprise software</span></div>
         <div class="bignum"><b>21</b><span>designers &amp; researchers led</span></div>
-        <div class="bignum"><b>28</b><span>UX issues closed before GA — validated with Telstra &amp; Optus users</span></div>
+        <div class="bignum"><b>7</b><span>AI products shipped to production, 2025–26</span></div>
         <div class="bignum"><b>100<i>%</i></b><span>task completion across 15 required attempts in customer validation</span></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ 04 WORDS ============ -->
+<!-- ============ 05 WORDS ============ -->
 <section class="sec" id="words">
   <div class="wrap">
     <div class="sec-head rv">
-      <span class="sec-no">04 — Words</span>
+      <span class="sec-no">05 — Words</span>
       <h2>From the people I've worked with.</h2>
     </div>
     <div class="featq rv">
@@ -559,11 +617,11 @@ dialog .close:hover{color:var(--ink);border-color:var(--ink2)}
   </div>
 </section>
 
-<!-- ============ 05 CONTACT ============ -->
+<!-- ============ 06 CONTACT ============ -->
 <section class="sec contact" id="contact">
   <div class="wrap">
     <div class="sec-head rv">
-      <span class="sec-no">05 — Contact</span>
+      <span class="sec-no">06 — Contact</span>
       <h2>Open to Senior UX Lead &amp; AI-UX roles — permanent, contract or advisory.</h2>
     </div>
     <div class="rv d1">
